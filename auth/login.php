@@ -1,99 +1,154 @@
 <?php
+
 session_start();
+
 include '../config/conexion.php';
+
+$error = "";
 
 if(isset($_POST['login'])){
 
-    $correo = $_POST['correo'];
+    $correo = mysqli_real_escape_string(
+        $conexion,
+        $_POST['correo']
+    );
+
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM usuarios WHERE correo = ?";
+    $sql = "SELECT * FROM usuarios
+            WHERE correo='$correo'";
 
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("s", $correo);
-    $stmt->execute();
+    $resultado = mysqli_query(
+        $conexion,
+        $sql
+    );
 
-    $resultado = $stmt->get_result();
+    if(mysqli_num_rows($resultado) > 0){
 
-    if($resultado->num_rows > 0){
+        $usuario = mysqli_fetch_assoc(
+            $resultado
+        );
 
-        $usuario = $resultado->fetch_assoc();
+       if(
+    md5($password) ==
+    $usuario['password']
+){
 
-        if(password_verify($password, $usuario['password'])){
+    $_SESSION['id']
+    = $usuario['id'];
 
-            $_SESSION['usuario'] = $usuario['nombre'];
-            $_SESSION['rol'] = $usuario['rol'];
-            $_SESSION['id'] = $usuario['id'];
+    $_SESSION['usuario']
+    = $usuario['nombre'];
 
-            header('Location: ../admin/dashboard.php');
-            exit();
+    $_SESSION['correo']
+    = $usuario['correo'];
 
-        } else {
-            $error = "Contraseña incorrecta";
+    $_SESSION['rol']
+    = $usuario['rol'];
+
+    header(
+        "Location: ../index.php"
+    );
+
+    exit();
+}else{
+
+            $error =
+            "Contraseña incorrecta";
         }
 
-    } else {
-        $error = "Usuario no encontrado";
+    }else{
+
+        $error =
+        "Usuario no encontrado";
     }
 }
+
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Login</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+<?php include '../includes/header.php'; ?>
+<?php include '../includes/navbar.php'; ?>
 
-<div class="container py-5">
+<div class="login-container">
 
-<div class="row justify-content-center">
-<div class="col-md-5">
+<div class="login-box">
 
-<div class="card shadow p-4">
+<img
+src="/EcoSmart/assets/img/logo.png"
+class="login-logo">
 
 <h2 class="text-center mb-4">
-🔐 Iniciar Sesión
+
+Iniciar Sesión
+
 </h2>
 
-<?php if(isset($error)): ?>
+<?php if($error != ""): ?>
+
 <div class="alert alert-danger">
-    <?php echo $error; ?>
+
+<?php echo $error; ?>
+
 </div>
+
 <?php endif; ?>
 
 <form method="POST">
 
-<input type="email"
+<div class="mb-3">
+
+<label>
+
+Correo
+
+</label>
+
+<input
+type="email"
 name="correo"
-placeholder="Correo"
-class="form-control mb-3"
+class="form-control"
 required>
 
-<input type="password"
+</div>
+
+<div class="mb-4">
+
+<label>
+
+Contraseña
+
+</label>
+
+<input
+type="password"
 name="password"
-placeholder="Contraseña"
-class="form-control mb-3"
+class="form-control"
 required>
 
-<button name="login" class="btn btn-success w-100">
-Entrar
+</div>
+
+<button
+type="submit"
+name="login"
+class="btn btn-success w-100">
+
+Ingresar
+
 </button>
 
 </form>
 
-<div class="text-center mt-3">
+<div class="text-center mt-4">
+
 <a href="registro.php">
-Crear Cuenta
+
+Registrarse
 </a>
+
 </div>
 
 </div>
-</div>
-</div>
+
 </div>
 
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>

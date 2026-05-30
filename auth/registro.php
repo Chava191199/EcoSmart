@@ -1,81 +1,166 @@
 <?php
+
 include '../config/conexion.php';
+
+$mensaje = "";
 
 if(isset($_POST['registro'])){
 
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['correo'];
-
-    $password = password_hash(
-        $_POST['password'],
-        PASSWORD_DEFAULT
+    $nombre = mysqli_real_escape_string(
+        $conexion,
+        $_POST['nombre']
     );
 
-    $sql = "INSERT INTO usuarios(nombre, correo, password)
-            VALUES(?,?,?)";
-
-    $stmt = $conexion->prepare($sql);
-
-    $stmt->bind_param(
-        "sss",
-        $nombre,
-        $correo,
-        $password
+    $correo = mysqli_real_escape_string(
+        $conexion,
+        $_POST['correo']
     );
 
-    if($stmt->execute()){
-        header('Location: login.php');
+    $password = md5(
+        $_POST['password']
+    );
+
+    $verificar = mysqli_query(
+        $conexion,
+        "SELECT * FROM usuarios
+         WHERE correo='$correo'"
+    );
+
+    if(mysqli_num_rows($verificar) > 0){
+
+        $mensaje =
+        "El correo ya existe";
+
+    }else{
+
+        $sql = "INSERT INTO usuarios(
+                nombre,
+                correo,
+                password
+                )
+
+                VALUES(
+                '$nombre',
+                '$correo',
+                '$password'
+                )";
+
+        if(mysqli_query(
+            $conexion,
+            $sql
+        )){
+
+            header(
+            "Location: login.php"
+            );
+
+            exit();
+        }
     }
 }
+
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Registro</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
 
-<div class="container py-5">
-<div class="row justify-content-center">
-<div class="col-md-5">
+<?php include '../includes/header.php'; ?>
+<?php include '../includes/navbar.php'; ?>
 
-<div class="card shadow p-4">
+<div class="login-container">
 
-<h2 class="text-center mb-4">📝 Registro
+<div class="login-box">
+
+<img
+src="/EcoSmart/assets/img/logo.png"
+class="login-logo">
+
+<h2 class="text-center mb-4">
+
+Registro
+
 </h2>
+
+<?php if($mensaje != ""): ?>
+
+<div class="alert alert-warning">
+
+<?php echo $mensaje; ?>
+
+</div>
+
+<?php endif; ?>
 
 <form method="POST">
 
-<input type="text"
+<div class="mb-3">
+
+<label>
+
+Nombre
+
+</label>
+
+<input
+type="text"
 name="nombre"
-placeholder="Nombre"
-class="form-control mb-3"
+class="form-control"
 required>
 
-<input type="email"
+</div>
+
+<div class="mb-3">
+
+<label>
+
+Correo
+
+</label>
+
+<input
+type="email"
 name="correo"
-placeholder="Correo"
-class="form-control mb-3"
+class="form-control"
 required>
 
-<input type="password"
+</div>
+
+<div class="mb-4">
+
+<label>
+
+Contraseña
+
+</label>
+
+<input
+type="password"
 name="password"
-placeholder="Contraseña"
-class="form-control mb-3"
+class="form-control"
 required>
 
-<button name="registro" class="btn btn-success w-100">
+</div>
+
+<button
+type="submit"
+name="registro"
+class="btn btn-success w-100">
+
 Registrarse
+
 </button>
 
 </form>
 
-</div>
-</div>
-</div>
+<div class="text-center mt-4">
+
+<a href="login.php">
+
+Ya tengo cuenta
+
+</a>
+
 </div>
 
-</body>
-</html>
+</div>
+
+</div>
+
+<?php include '../includes/footer.php'; ?>
