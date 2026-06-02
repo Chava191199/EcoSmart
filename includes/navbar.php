@@ -43,11 +43,21 @@ if(session_status() == PHP_SESSION_NONE){
 
         <?php if(isset($_SESSION['usuario'])): ?>
 
-            <div class="user-bubble">
+            <div class="user-dropdown">
 
-                👤 <?= htmlspecialchars($_SESSION['usuario']) ?>
+                <button
+                class="user-btn"
+                onclick="toggleUserMenu()">
 
-                <div class="user-menu">
+                    👤 <?= htmlspecialchars($_SESSION['usuario']) ?>
+
+                    ▼
+
+                </button>
+
+                <div
+                id="userMenu"
+                class="user-menu">
 
                     <a href="/EcoSmart/perfil.php">
                         ⚙️ Mi Perfil
