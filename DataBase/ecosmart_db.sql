@@ -9,6 +9,9 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
+DROP DATABASE IF EXISTS `ecosmart_db`;
+CREATE DATABASE IF NOT EXISTS `ecosmart_db`;
+use `ecosmart_db`;
 SET time_zone = "+00:00";
 
 
