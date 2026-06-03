@@ -1,49 +1,177 @@
 <?php
+
 session_start();
 include '../config/conexion.php';
 
-$sql = "SELECT * FROM usuarios";
-$resultado = mysqli_query($conexion, $sql);
+if(!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin'){
+    header("Location: ../index.php");
+    exit();
+}
+
+/* ELIMINAR USUARIO */
+
+if(isset($_GET['eliminar'])){
+
+    $id = intval($_GET['eliminar']);
+
+    mysqli_query(
+        $conexion,
+        "DELETE FROM usuarios WHERE id=$id"
+    );
+
+    header("Location: usuarios.php");
+    exit();
+}
+
+/* CAMBIAR ROL */
+
+if(isset($_GET['admin'])){
+
+    $id = intval($_GET['admin']);
+
+    mysqli_query(
+        $conexion,
+        "UPDATE usuarios
+        SET rol='admin'
+        WHERE id=$id"
+    );
+
+    header("Location: usuarios.php");
+    exit();
+}
+
+if(isset($_GET['usuario'])){
+
+    $id = intval($_GET['usuario']);
+
+    mysqli_query(
+        $conexion,
+        "UPDATE usuarios
+        SET rol='usuario'
+        WHERE id=$id"
+    );
+
+    header("Location: usuarios.php");
+    exit();
+}
+
+$usuarios = mysqli_query(
+    $conexion,
+    "SELECT * FROM usuarios
+    ORDER BY id DESC"
+);
+
+include '../includes/header.php';
+include '../includes/navbar.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Usuarios</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<div class="container dashboard-container">
 
-<div class="container py-5">
+    <div class="section-box">
 
-<h1 class="mb-4">
-👥 Usuarios Registrados
-</h1>
+        <h2>
+            👥 Usuarios Registrados
+        </h2>
 
-<table class="table table-bordered table-striped">
+        <p>
+            Administración de usuarios del sistema.
+        </p>
 
-<tr>
-<th>ID</th>
-<th>Nombre</th>
-<th>Correo</th>
-<th>Rol</th>
-</tr>
+        <div class="table-container">
 
-<?php while($usuario = mysqli_fetch_assoc($resultado)): ?>
+            <table class="table-admin">
 
-<tr>
-<td><?php echo $usuario['id']; ?></td>
-<td><?php echo $usuario['nombre']; ?></td>
-<td><?php echo $usuario['correo']; ?></td>
-<td><?php echo $usuario['rol']; ?></td>
-</tr>
+                <thead>
 
-<?php endwhile; ?>
+                    <tr>
 
-</table>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Registro</th>
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <?php while($u = mysqli_fetch_assoc($usuarios)): ?>
+
+                    <tr>
+
+                        <td><?= $u['id'] ?></td>
+
+                        <td><?= $u['nombre'] ?></td>
+
+                        <td><?= $u['correo'] ?></td>
+
+                        <td>
+
+                            <span class="role-badge">
+
+                                <?= $u['rol'] ?>
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <?= $u['fecha_registro'] ?>
+
+                        </td>
+
+                        <td>
+
+                            <?php if($u['rol'] == 'usuario'): ?>
+
+                                <a
+                                href="?admin=<?= $u['id'] ?>"
+                                class="btn-admin">
+
+                                    👑 Hacer Admin
+
+                                </a>
+
+                            <?php else: ?>
+
+                                <a
+                                href="?usuario=<?= $u['id'] ?>"
+                                class="btn-user">
+
+                                    👤 Quitar Admin
+
+                                </a>
+
+                            <?php endif; ?>
+
+                            <a
+                            href="?eliminar=<?= $u['id'] ?>"
+                            class="btn-delete"
+                            onclick="return confirm('¿Eliminar usuario?')">
+
+                                🗑 Eliminar
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <?php endwhile; ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>

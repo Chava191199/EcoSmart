@@ -8,21 +8,23 @@ if(session_status() == PHP_SESSION_NONE){
 
 <nav class="floating-navbar">
 
+    <!-- LOGO -->
     <div class="logo">
 
-        <a href="/EcoSmart/index.php">
+        <a href="/EcoSmart/index.php" class="logo-link">
 
             <img
-            src="/EcoSmart/assets/img/logo.png"
-            alt="EcoSmart"
-            class="logo-img">
+                src="/EcoSmart/assets/img/logo.png"
+                alt="EcoSmart"
+                class="logo-img">
+
+            <span>EcoSmart</span>
 
         </a>
 
-        <span>EcoSmart</span>
-
     </div>
 
+    <!-- MENÚ -->
     <div class="nav-links">
 
         <a href="/EcoSmart/index.php">
@@ -46,18 +48,19 @@ if(session_status() == PHP_SESSION_NONE){
             <div class="user-dropdown">
 
                 <button
-                class="user-btn"
-                onclick="toggleUserMenu()">
+                    type="button"
+                    class="user-btn"
+                    onclick="toggleUserMenu(event)">
 
                     👤 <?= htmlspecialchars($_SESSION['usuario']) ?>
 
-                    ▼
+                    <span class="arrow">▼</span>
 
                 </button>
 
                 <div
-                id="userMenu"
-                class="user-menu">
+                    id="userMenu"
+                    class="user-menu">
 
                     <a href="/EcoSmart/perfil.php">
                         ⚙️ Mi Perfil
@@ -89,8 +92,12 @@ if(session_status() == PHP_SESSION_NONE){
                 🔐 Iniciar Sesión
             </a>
 
-            <a href="/EcoSmart/auth/registro.php" class="register-btn">
+            <a
+                href="/EcoSmart/auth/registro.php"
+                class="register-btn">
+
                 ✨ Registrarse
+
             </a>
 
         <?php endif; ?>
