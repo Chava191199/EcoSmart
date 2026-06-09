@@ -1,118 +1,165 @@
 <footer class="footer">
 
-<div class="container">
+    <div class="container">
 
-<div class="row">
+        <div class="row gy-4">
 
-<div class="col-md-4">
+            <div class="col-md-4">
 
-<img
-src="/EcoSmart/assets/img/logo.png"
-class="footer-logo">
+                <img
+                src="/EcoSmart/assets/img/logo.png"
+                alt="EcoSmart"
+                class="footer-logo">
 
-<h3>
+                <h3>
+                    EcoSmart Solutions
+                </h3>
 
-EcoSmart Solutions
+                <p>
+                    Plataforma tecnológica enfocada en la ODS 13:
+                    Acción por el Clima.
+                </p>
 
-</h3>
+            </div>
 
-<p>
+            <div class="col-md-4">
 
-ODS 13 — Acción por el Clima
+                <h4>
+                    Navegación
+                </h4>
 
-</p>
+                <ul class="footer-links">
 
-</div>
+                    <li>
+                        <a href="/EcoSmart/index.php">
+                            🏠 Inicio
+                        </a>
+                    </li>
 
-<div class="col-md-4">
+                    <li>
+                        <a href="/EcoSmart/index.php#informacion">
+                            📘 Información
+                        </a>
+                    </li>
 
-<h4>
+                    <li>
+                        <a href="/EcoSmart/index.php#campanas">
+                            🌱 Campañas
+                        </a>
+                    </li>
 
-Enlaces
+                    <li>
+                        <a href="/EcoSmart/index.php#proyectos">
+                            🚀 Proyectos
+                        </a>
+                    </li>
 
-</h4>
+                </ul>
 
-<ul class="footer-links">
+            </div>
 
-<li>
+            <div class="col-md-4">
 
-<a href="/EcoSmart/index.php">
+                <h4>
+                    Contacto
+                </h4>
 
-Inicio
+                <p>
+                    📧 contacto@ecosmart.com
+                </p>
 
-</a>
+                <p>
+                    📍 México
+                </p>
 
-</li>
+                <p>
+                    🌐 EcoSmart Solutions
+                </p>
 
-<li>
+            </div>
 
-<a href="/EcoSmart/index.php#informacion">
+        </div>
 
-Información
+        <hr class="footer-line">
 
-</a>
+        <div class="footer-copy">
 
-</li>
+            © 2026 EcoSmart Solutions | Todos los derechos reservados
 
-<li>
+        </div>
 
-<a href="/EcoSmart/index.php#campanas">
+    </div>
 
-Campañas
-
-</a>
-
-</li>
-
-<li>
-
-<a href="/EcoSmart/index.php#proyectos">
-
-Proyectos
-
-</a>
-
-</li>
-
-</ul>
-
-</div>
-
-<div class="col-md-4">
-
-<h4>
-
-Contacto
-
-</h4>
-
-<p>
-
-📧 contacto@ecosmart.com
-
-</p>
-
-<p>
-
-📍 México
-
-</p>
-
-</div>
-
-</div>
-
-<hr>
-
-<div class="text-center">
-
-© 2026 EcoSmart Solutions
-
-</div>
-
-</div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+/* ==========================
+   MENÚ DESPLEGABLE USUARIO
+========================== */
+
+function toggleUserMenu(event){
+
+    event.stopPropagation();
+
+    const menu =
+    document.getElementById("userMenu");
+
+    if(menu){
+
+        menu.classList.toggle("show");
+
+    }
+
+}
+
+/* Evita que el menú se cierre
+   al hacer clic dentro de él */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const menu =
+        document.getElementById("userMenu");
+
+        if(menu){
+
+            menu.addEventListener(
+                "click",
+                function(event){
+
+                    event.stopPropagation();
+
+                }
+            );
+
+        }
+
+    }
+);
+
+/* Cerrar menú al hacer clic fuera */
+
+document.addEventListener(
+    "click",
+    function(){
+
+        const menu =
+        document.getElementById("userMenu");
+
+        if(menu){
+
+            menu.classList.remove("show");
+
+        }
+
+    }
+);
+
+</script>
 
 </body>
 </html>

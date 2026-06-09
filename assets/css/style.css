@@ -1,3 +1,7 @@
+/* =====================================================
+   RESET GENERAL
+===================================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +22,9 @@ body {
     color: rgb(255, 255, 255);
 }
 
-/* ========== NAVBAR ========== */
+/* ========== =====================================================
+   NAVBAR ========== GLASSMORPHISM
+===================================================== */
 .floating-navbar {
     position: fixed;
     top: 15px;
@@ -26,7 +32,7 @@ body {
     transform: translateX(-50%);
     width: 95%;
     padding: 10px 20px;
-    background: rgba(36, 190, 210, 0.1);
+    background: rgba(36, 190, 210, .1);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
@@ -37,7 +43,9 @@ body {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* ========== LOGO ========== */
+/* ========== =====================================================
+   LOGO
+===================================================== ========== */
 .logo {
     display: flex;
     align-items: center;
@@ -47,9 +55,29 @@ body {
     color: white;
 }
 
+.logo-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    text-decoration:none;
+
+    color:white;
+}
+
 .logo-img {
     width: 65px;
+
+    transition:.4s;
     animation: floatLogo 3s infinite ease-in-out;
+}
+
+.logo-img:hover{
+
+    transform:scale(1.1);
 }
 
 @keyframes floatLogo {
@@ -58,7 +86,9 @@ body {
     100% { transform: translateY(0); }
 }
 
-/* ========== NAV LINKS ========== */
+/* ========== NAV =====================================================
+   LINKS ========== NAVBAR
+===================================================== */
 .nav-links {
     display: flex;
     align-items: center;
@@ -72,6 +102,21 @@ body {
     padding: 12px 18px;
     border-radius: 15px;
     transition: 0.3s;
+.nav-links a{
+
+    position:relative;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:600;
+
+    padding:12px 18px;
+
+    border-radius:15px;
+
+    transition:.3s;
 }
 
 .nav-links a:hover {
@@ -93,8 +138,142 @@ body {
 
 .user-bubble:hover {
     background: rgba(255, 255, 255, 0.25);
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:5px;
+
+    width:0;
+
+    height:2px;
+
+    background:#64dd17;
+
+    transition:.3s;
+
+    transform:translateX(-50%);
 }
 
+.nav-links a:hover::after{
+
+    width:70%;
+}
+
+/* =====================================================
+   BOTÓN REGISTRO
+===================================================== */
+
+.register-btn{
+
+    background:
+    linear-gradient(
+        45deg,
+        #00c853,
+        #64dd17
+    );
+
+    color:white !important;
+
+    border-radius:15px;
+
+    padding:12px 20px;
+
+    font-weight:bold;
+}
+
+.register-btn:hover{
+
+    background:
+    linear-gradient(
+        45deg,
+        #00e676,
+        #76ff03
+    );
+}
+/* =====================================================
+   MENÚ USUARIO DESPLEGABLE
+===================================================== */
+
+.user-dropdown{
+
+    position:relative;
+}
+
+.user-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border:none;
+
+    background:
+    rgba(255,255,255,.15);
+
+    color:white;
+
+    padding:12px 18px;
+
+    border-radius:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    backdrop-filter:blur(10px);
+}
+
+.user-btn:hover{
+
+    background:
+    rgba(255,255,255,.25);
+
+    transform:translateY(-2px);
+}
+
+.arrow{
+
+    font-size:12px;
+
+    transition:.3s;
+}
+
+.user-menu{
+
+    position:absolute;
+
+    top:65px;
+
+    right:0;
+
+    width:230px;
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    display:none;
+
+    z-index:99999;
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.25);
+}
+
+.user-menu.show{
+
+    display:block !important;
 .user-menu {
     position: absolute;
     top: 45px;
@@ -108,6 +287,17 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
+.user-menu a{
+
+    display:block;
+
+    padding:15px;
+
+    color:#333 !important;
+
+    text-decoration:none;
+
+    transition:.3s;
 .user-menu a {
     display: block;
     padding: 10px 15px;
@@ -117,16 +307,28 @@ body {
     transition: 0.3s;
 }
 
+.user-menu a:hover{
+
+    background:#f4f4f4;
+
+    padding-left:20px;
 .user-menu a:hover {
     background: #f5f5f5;
 }
 
+/* DESACTIVA APERTURA POR HOVER */
+
+.user-dropdown:hover .user-menu{
+
+    display:none !important;
 .user-bubble:hover .user-menu,
 .user-menu:hover {
     display: block;
 }
 
-/* ========== HERO ========== */
+/* ========== =====================================================
+   HERO
+===================================================== ========== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -134,6 +336,11 @@ body {
     align-items: center;
     text-align: center;
     padding: 100px 20px;
+}
+
+.hero-content{
+
+    max-width:1000px;
 }
 
 .hero-logo {
@@ -151,12 +358,25 @@ body {
     font-size: 90px;
     font-weight: 800;
     margin-top: 20px;
+
+    text-shadow:
+    0 0 20px rgba(100,221,23,.4);
 }
 
 .hero p {
     font-size: 28px;
     margin-top: 20px;
+
+    max-width:800px;
+
+    margin-left:auto;
+
+    margin-right:auto;
 }
+
+/* =====================================================
+   BOTÓN PRINCIPAL HERO
+===================================================== */
 
 .hero-btn {
     margin-top: 30px;
@@ -169,13 +389,63 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+
+    box-shadow:
+    0 10px 25px rgba(0,200,83,.35);
 }
 
 .hero-btn:hover {
-    transform: translateY(-4px);
+    transform: 
+    translateY(-5px)
+    scale(1.03);
+
+    box-shadow:
+    0 20px 35px rgba(0,200,83,.5);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
+/* =====================================================
+   BOTONES GENERALES
+===================================================== */
+
+.btn-custom{
+
+    padding:14px 28px;
+
+    border:none;
+
+    border-radius:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-custom:hover{
+
+    transform:translateY(-3px);
+}
+/* =====================================================
+   SECCIONES GENERALES
+===================================================== */
+
+.section-box{
+
+    background:
+    rgba(255,255,255,.92);
+
+    color:#333;
+
+    padding:50px;
+
+    margin:60px 0;
+
+    border-radius:30px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
 /* ========== SECCIONES ========== */
 .section-box {
     background: rgba(255, 255, 255, 0.92);
@@ -189,9 +459,37 @@ body {
 .section-box h2 {
     margin-bottom: 20px;
     color: #0d6e3f;
+.section-box h2{
+
+    margin-bottom:20px;
+
+    color:#0d6e3f;
+
+    font-weight:700;
 }
 
-/* ========== TARJETAS ========== */
+.section-box p{
+
+    line-height:1.8;
+}
+
+/* =====================================================
+   GRID DE CONTENIDO
+===================================================== */
+
+.content-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(300px,1fr));
+
+    gap:25px;
+}
+
+/* ========== =====================================================
+   TARJETAS
+===================================================== ========== */
 .card-custom {
     background: white;
     padding: 35px;
@@ -205,15 +503,92 @@ body {
 .card-custom:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+.card-custom:hover{
+
+    transform:
+    translateY(-10px)
+    scale(1.02);
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.18);
 }
 
-/* ========== LOGIN ========== */
+.card-custom h3{
+
+    color:#198754;
+
+    margin-bottom:15px;
+
+    font-weight:700;
+}
+
+.card-custom p{
+
+    color:#555;
+
+    line-height:1.7;
+}
+
+.card-icon{
+
+    font-size:60px;
+
+    margin-bottom:20px;
+}
+
+/* =====================================================
+   TARJETAS DE PROYECTOS
+===================================================== */
+
+.project-card{
+
+    background:white;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.12);
+}
+
+.project-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 20px 35px rgba(0,0,0,.18);
+}
+
+.project-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+}
+
+.project-card-body{
+
+    padding:25px;
+
+    color:#333;
+}
+
+/* ========== =====================================================
+   LOGIN ========== / REGISTRO
+===================================================== */
 .login-container {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 100px;
+
+    padding-bottom:50px;
 }
 
 .login-box {
@@ -237,10 +612,172 @@ body {
     border-radius: 15px;
     padding: 15px;
 }
+.login-title{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    color:#198754;
+
+    font-weight:bold;
+}
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.form-control{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    margin-bottom:15px;
+
+    transition:.3s;
+}
+
+.form-control:focus{
+
+    outline:none;
+
+    border-color:#198754;
+
+    box-shadow:
+    0 0 10px rgba(25,135,84,.25);
+}
+
+/* =====================================================
+   BOTONES FORMULARIOS
+===================================================== */
 
 .btn-success {
     border-radius: 15px;
     padding: 15px;
+.btn-success{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:
+    linear-gradient(
+        45deg,
+        #00c853,
+        #64dd17
+    );
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-success:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 20px rgba(0,200,83,.3);
+}
+
+/* =====================================================
+   DASHBOARD ADMIN
+===================================================== */
+
+.dashboard-container{
+
+    margin-top:120px;
+}
+
+.dashboard-card{
+
+    background:white;
+
+    color:#333;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+
+    transition:.3s;
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.2);
+}
+
+.dashboard-number{
+
+    font-size:45px;
+
+    font-weight:bold;
+
+    color:#198754;
+}
+
+.dashboard-title{
+
+    margin-top:10px;
+
+    color:#666;
+
+    font-size:18px;
+}
+
+/* =====================================================
+   TABLAS ADMIN
+===================================================== */
+
+.table-container{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    color:#333;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+}
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+.table th{
+
+    background:#198754;
+
+    color:white;
+
+    padding:15px;
 }
 
 /* ========== REGISTER BUTTON ========== */
@@ -263,11 +800,67 @@ body {
     background: rgba(0, 0, 0, 0.85);
     padding: 60px 0;
     color: white;
+.table td{
+
+    padding:15px;
+
+    border-bottom:
+    1px solid #eee;
+}
+/* =====================================================
+   FOOTER PREMIUM
+===================================================== */
+
+.footer{
+
+    margin-top:100px;
+
+    background:
+    rgba(0,0,0,.85);
+
+    backdrop-filter:blur(15px);
+
+    padding:70px 0 30px;
+
+    color:white;
+
+    border-top:
+    1px solid rgba(255,255,255,.1);
 }
 
 .footer-logo {
-    width: 100px;
+    width: 110px;
+
+    margin-bottom:15px;
+
+    transition:.4s;
+}
+
+.footer-logo:hover{
+
+    transform:scale(1.08);
+}
+
+.footer h3{
+
+    font-weight:700;
+
+    margin-bottom:10px;
+}
+
+.footer h4{
     margin-bottom: 20px;
+
+    color:#64dd17;
+
+    font-weight:600;
+}
+
+.footer p{
+
+    opacity:.9;
+
+    line-height:1.8;
 }
 
 .footer-links {
@@ -276,14 +869,127 @@ body {
 }
 
 .footer-links li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .footer-links a {
     color: white;
     text-decoration: none;
+
+    transition:.3s;
 }
 
+.footer-links a:hover{
+
+    color:#64dd17;
+
+    padding-left:8px;
+}
+
+.footer-line{
+
+    margin:40px 0 20px;
+
+    border-color:
+    rgba(255,255,255,.15);
+}
+
+.footer-copy{
+
+    text-align:center;
+
+    font-size:14px;
+
+    opacity:.8;
+}
+
+/* =====================================================
+   ANIMACIONES GENERALES
+===================================================== */
+
+.fade-up{
+
+    animation:
+    fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(30px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+    }
+}
+
+.zoom-in{
+
+    animation:
+    zoomIn .8s ease forwards;
+}
+
+@keyframes zoomIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        scale(.8);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        scale(1);
+    }
+}
+
+/* =====================================================
+   SCROLLBAR PERSONALIZADA
+===================================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#198754;
+
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#28a745;
+}
+
+/* =====================================================
+   UTILIDADES
+===================================================== */
+
+.text-green{
+
+    color:#198754;
 /* ========== DASHBOARD ========== */
 .dashboard-card {
     background: white;
@@ -300,6 +1006,67 @@ body {
     color: #198754;
 }
 
+.text-center{
+
+    text-align:center;
+}
+
+.mt-5{
+
+    margin-top:3rem;
+}
+
+.mb-5{
+
+    margin-bottom:3rem;
+}
+
+.shadow-custom{
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.2);
+}
+
+/* =====================================================
+   RESPONSIVE TABLETS
+===================================================== */
+
+@media(max-width:992px){
+
+    .hero h1{
+
+        font-size:60px;
+    }
+
+    .hero p{
+
+        font-size:22px;
+    }
+
+    .section-box{
+
+        padding:35px;
+    }
+
+    .floating-navbar{
+
+        width:98%;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE MÓVILES
+===================================================== */
+
+@media(max-width:768px){
+
+    .floating-navbar{
+
+        flex-direction:column;
+
+        gap:15px;
+
+        padding:20px;
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .floating-navbar {
@@ -310,6 +1077,11 @@ body {
     .nav-links {
         flex-wrap: wrap;
         justify-content: center;
+    }
+
+    .hero{
+
+        padding-top:180px;
     }
 
     .hero h1 {
@@ -324,7 +1096,275 @@ body {
         width: 180px;
     }
 
+    .section-box{
+
+        padding:25px;
+    }
+
     .login-box {
         width: 95%;
     }
+    .login-box{
+
+        width:95%;
+    }
+
+    .user-menu{
+
+        width:220px;
+    }
+
+    .dashboard-number{
+
+        font-size:35px;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE MÓVILES PEQUEÑOS
+===================================================== */
+
+@media(max-width:480px){
+
+    .hero h1{
+
+        font-size:35px;
+    }
+
+    .hero p{
+
+        font-size:18px;
+    }
+
+    .hero-btn{
+
+        width:100%;
+    }
+
+    .nav-links{
+
+        gap:8px;
+    }
+
+    .nav-links a{
+
+        padding:10px 12px;
+
+        font-size:14px;
+    }
+
+    .logo{
+
+        font-size:22px;
+    }
+
+    .logo-img{
+
+        width:50px;
+    }
+}
+
+/* =====================================================
+   CORRECCIÓN MENÚ USUARIO
+   (ABRIR SOLO CON CLICK)
+===================================================== */
+
+.user-menu{
+
+    display:none;
+}
+
+.user-menu.show{
+
+    display:block !important;
+}
+
+/* Evita apertura por hover */
+
+.user-dropdown:hover .user-menu{
+
+    display:none !important;
+}
+
+.user-bubble:hover .user-menu{
+
+    display:none !important;
+}
+/* =====================================================
+   TABLA ADMINISTRADOR
+===================================================== */
+
+.table-admin{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    overflow:hidden;
+
+    border-radius:20px;
+}
+
+.table-admin th{
+
+    background:#198754;
+
+    color:white;
+
+    padding:18px;
+
+    text-align:left;
+}
+
+.table-admin td{
+
+    background:white;
+
+    color:#333;
+
+    padding:18px;
+
+    border-bottom:1px solid #eee;
+}
+
+.table-admin tr:hover td{
+
+    background:#f8f8f8;
+}
+
+/* =====================================================
+   BADGE ROL
+===================================================== */
+
+.role-badge{
+
+    background:#198754;
+
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+/* =====================================================
+   BOTONES ADMIN
+===================================================== */
+
+.btn-admin{
+
+    display:inline-block;
+
+    background:#198754;
+
+    color:white !important;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    margin-right:5px;
+
+    transition:.3s;
+}
+
+.btn-admin:hover{
+
+    background:#157347;
+}
+
+.btn-user{
+
+    display:inline-block;
+
+    background:#0d6efd;
+
+    color:white !important;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    margin-right:5px;
+}
+
+.btn-user:hover{
+
+    background:#0b5ed7;
+}
+
+.btn-delete{
+
+    display:inline-block;
+
+    background:#dc3545;
+
+    color:white !important;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.btn-delete:hover{
+
+    background:#bb2d3b;
+}
+/* ==========================================
+   TABLA DE USUARIOS ADMIN
+========================================== */
+
+.table{
+
+    background:white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    color:#333;
+}
+
+.table thead{
+
+    background:linear-gradient(
+        45deg,
+        #00c853,
+        #64dd17
+    );
+
+    color:white;
+}
+
+.table td,
+.table th{
+
+    vertical-align:middle;
+}
+
+.table tbody tr:hover{
+
+    background:#f5fff2;
+}
+
+.btn-sm{
+
+    border-radius:12px;
+}
+
+.badge{
+
+    font-size:14px;
 }
