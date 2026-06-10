@@ -14,16 +14,31 @@ if(isset($_GET['eliminar'])){
 
     $id = intval($_GET['eliminar']);
 
+    $consulta =
     mysqli_query(
         $conexion,
-        "DELETE FROM usuarios WHERE id=$id"
+        "SELECT rol FROM usuarios
+        WHERE id=$id"
     );
+
+    $usuario =
+    mysqli_fetch_assoc($consulta);
+
+    if($usuario['rol'] != 'admin'){
+
+        mysqli_query(
+            $conexion,
+            "DELETE FROM usuarios
+            WHERE id=$id"
+        );
+
+    }
 
     header("Location: usuarios.php");
     exit();
 }
 
-/* CAMBIAR ROL */
+/* HACER ADMIN */
 
 if(isset($_GET['admin'])){
 
@@ -39,6 +54,8 @@ if(isset($_GET['admin'])){
     header("Location: usuarios.php");
     exit();
 }
+
+/* QUITAR ADMIN */
 
 if(isset($_GET['usuario'])){
 
@@ -58,7 +75,7 @@ if(isset($_GET['usuario'])){
 $usuarios = mysqli_query(
     $conexion,
     "SELECT * FROM usuarios
-    ORDER BY id DESC"
+     ORDER BY id DESC"
 );
 
 include '../includes/header.php';
@@ -75,20 +92,23 @@ include '../includes/navbar.php';
         </h2>
 
         <p>
-            Administración de usuarios del sistema.
+            Administración general de usuarios.
         </p>
 
-        <div class="table-container">
+        <div class="table-responsive">
 
-            <table class="table-admin">
+            <table class="table table-hover table-bordered align-middle">
 
-                <thead>
+                <thead class="table-success">
 
                     <tr>
 
+                        <th>Foto</th>
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Tipo</th>
                         <th>Rol</th>
                         <th>Registro</th>
                         <th>Acciones</th>
@@ -103,26 +123,71 @@ include '../includes/navbar.php';
 
                     <tr>
 
-                        <td><?= $u['id'] ?></td>
+                        <td>
 
-                        <td><?= $u['nombre'] ?></td>
+                            <img
+                            src="/EcoSmart/uploads/perfiles/<?= $u['foto'] ?>"
+                            alt="Perfil"
+                            width="60"
+                            height="60"
+                            style="
+                                border-radius:50%;
+                                object-fit:cover;
+                                border:2px solid #198754;
+                            ">
 
-                        <td><?= $u['correo'] ?></td>
+                        </td>
+
+                        <td>
+                            <?= $u['id'] ?>
+                        </td>
+
+                        <td>
+                            <?= htmlspecialchars($u['nombre']) ?>
+                        </td>
+
+                        <td>
+                            <?= htmlspecialchars($u['correo']) ?>
+                        </td>
+
+                        <td>
+                            <?= htmlspecialchars($u['telefono']) ?>
+                        </td>
 
                         <td>
 
-                            <span class="role-badge">
+                            <?php if($u['tipo_usuario'] == 'empresa'): ?>
 
-                                <?= $u['rol'] ?>
+                                🏢 Empresa
 
-                            </span>
+                            <?php else: ?>
+
+                                👤 Personal
+
+                            <?php endif; ?>
 
                         </td>
 
                         <td>
 
-                            <?= $u['fecha_registro'] ?>
+                            <?php if($u['rol'] == 'admin'): ?>
 
+                                <span class="badge bg-danger">
+                                    Admin
+                                </span>
+
+                            <?php else: ?>
+
+                                <span class="badge bg-primary">
+                                    Usuario
+                                </span>
+
+                            <?php endif; ?>
+
+                        </td>
+
+                        <td>
+                            <?= $u['fecha_registro'] ?>
                         </td>
 
                         <td>
@@ -131,9 +196,10 @@ include '../includes/navbar.php';
 
                                 <a
                                 href="?admin=<?= $u['id'] ?>"
-                                class="btn-admin">
+                                class="btn btn-success btn-sm"
+                                onclick="return confirm('¿Convertir en administrador?')">
 
-                                    👑 Hacer Admin
+                                    👑 Admin
 
                                 </a>
 
@@ -141,22 +207,27 @@ include '../includes/navbar.php';
 
                                 <a
                                 href="?usuario=<?= $u['id'] ?>"
-                                class="btn-user">
+                                class="btn btn-warning btn-sm"
+                                onclick="return confirm('¿Quitar permisos de administrador?')">
 
-                                    👤 Quitar Admin
+                                    👤 Usuario
 
                                 </a>
 
                             <?php endif; ?>
 
-                            <a
-                            href="?eliminar=<?= $u['id'] ?>"
-                            class="btn-delete"
-                            onclick="return confirm('¿Eliminar usuario?')">
+                            <?php if($u['id'] != $_SESSION['id']): ?>
 
-                                🗑 Eliminar
+                                <a
+                                href="?eliminar=<?= $u['id'] ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('¿Eliminar usuario definitivamente?')">
 
-                            </a>
+                                    🗑 Eliminar
+
+                                </a>
+
+                            <?php endif; ?>
 
                         </td>
 

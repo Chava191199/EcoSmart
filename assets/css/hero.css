@@ -1,0 +1,79 @@
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+}
+
+.hero-logo{
+
+    width:250px;
+
+    animation:pulseLogo 4s infinite;
+}
+
+@keyframes pulseLogo{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+.hero h1{
+
+    font-size:90px;
+
+    font-weight:800;
+
+    text-shadow:
+    0 0 20px rgba(100,221,23,.4);
+}
+
+.hero p{
+
+    font-size:28px;
+
+    margin-top:20px;
+}
+
+.hero-btn{
+
+    margin-top:30px;
+
+    padding:18px 40px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:
+    linear-gradient(
+        45deg,
+        #00c853,
+        #64dd17
+    );
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+}

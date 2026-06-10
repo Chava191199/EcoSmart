@@ -1,0 +1,57 @@
+/* =====================================================
+   RESET GENERAL
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    padding-top:140px;
+
+    font-family:'Segoe UI',sans-serif;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.55)
+    ),
+    url('https://images.unsplash.com/photo-1497436072909-f5e4be8c8e8d');
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+}
+
+/* CONTENEDORES */
+
+.section-box{
+
+    background:rgba(255,255,255,.92);
+
+    color:#333;
+
+    padding:50px;
+
+    margin:40px 0;
+
+    border-radius:30px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
+}
+
+.section-box h2{
+
+    color:#0d6e3f;
+
+    margin-bottom:20px;
+}

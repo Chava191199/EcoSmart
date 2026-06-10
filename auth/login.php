@@ -8,59 +8,77 @@ $error = "";
 
 if(isset($_POST['login'])){
 
-    $correo = mysqli_real_escape_string(
-        $conexion,
-        $_POST['correo']
-    );
-
+    $usuario_input = trim($_POST['usuario']);
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM usuarios
-            WHERE correo='$correo'";
-
-    $resultado = mysqli_query(
-        $conexion,
-        $sql
+    $stmt = $conexion->prepare(
+        "SELECT *
+         FROM usuarios
+         WHERE correo = ?
+         OR telefono = ?
+         LIMIT 1"
     );
 
-    if(mysqli_num_rows($resultado) > 0){
-
-        $usuario = mysqli_fetch_assoc(
-            $resultado
-        );
-
-       if(
-    md5($password) ==
-    $usuario['password']
-){
-
-    $_SESSION['id']
-    = $usuario['id'];
-
-    $_SESSION['usuario']
-    = $usuario['nombre'];
-
-    $_SESSION['correo']
-    = $usuario['correo'];
-
-    $_SESSION['rol']
-    = $usuario['rol'];
-
-    header(
-        "Location: ../index.php"
+    $stmt->bind_param(
+        "ss",
+        $usuario_input,
+        $usuario_input
     );
 
-    exit();
-}else{
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    if($resultado->num_rows > 0){
+
+        $usuario = $resultado->fetch_assoc();
+
+        if(
+            password_verify(
+                $password,
+                $usuario['password']
+            )
+        ){
+
+            session_regenerate_id(true);
+
+            $_SESSION['id']
+            = $usuario['id'];
+
+            $_SESSION['usuario']
+            = $usuario['nombre'];
+
+            $_SESSION['correo']
+            = $usuario['correo'];
+
+            $_SESSION['telefono']
+            = $usuario['telefono'];
+
+            $_SESSION['tipo_usuario']
+            = $usuario['tipo_usuario'];
+
+            $_SESSION['foto']
+            = $usuario['foto'];
+
+            $_SESSION['rol']
+            = $usuario['rol'];
+
+            header(
+                "Location: ../index.php"
+            );
+
+            exit();
+
+        }else{
 
             $error =
-            "Contraseña incorrecta";
+            "Contraseña incorrecta.";
         }
 
     }else{
 
         $error =
-        "Usuario no encontrado";
+        "Correo o teléfono no encontrado.";
     }
 }
 
@@ -71,83 +89,79 @@ if(isset($_POST['login'])){
 
 <div class="login-container">
 
-<div class="login-box">
+    <div class="login-box">
 
-<img
-src="/EcoSmart/assets/img/logo.png"
-class="login-logo">
+        <img
+        src="/EcoSmart/assets/img/logo.png"
+        class="login-logo">
 
-<h2 class="text-center mb-4">
+        <h2 class="text-center mb-4">
+            Iniciar Sesión
+        </h2>
 
-Iniciar Sesión
+        <?php if($error != ""): ?>
 
-</h2>
+            <div class="alert alert-danger">
 
-<?php if($error != ""): ?>
+                <?= $error ?>
 
-<div class="alert alert-danger">
+            </div>
 
-<?php echo $error; ?>
+        <?php endif; ?>
 
-</div>
+        <form method="POST">
 
-<?php endif; ?>
+            <div class="mb-3">
 
-<form method="POST">
+                <label>
+                    Correo o Teléfono
+                </label>
 
-<div class="mb-3">
+                <input
+                type="text"
+                name="usuario"
+                class="form-control"
+                placeholder="correo@ejemplo.com o 8123456789"
+                required>
 
-<label>
+            </div>
 
-Correo
+            <div class="mb-4">
 
-</label>
+                <label>
+                    Contraseña
+                </label>
 
-<input
-type="email"
-name="correo"
-class="form-control"
-required>
+                <input
+                type="password"
+                name="password"
+                class="form-control"
+                required>
 
-</div>
+            </div>
 
-<div class="mb-4">
+            <button
+            type="submit"
+            name="login"
+            class="btn btn-success w-100">
 
-<label>
+                Ingresar
 
-Contraseña
+            </button>
 
-</label>
+        </form>
 
-<input
-type="password"
-name="password"
-class="form-control"
-required>
+        <div class="text-center mt-4">
 
-</div>
+            <a href="registro.php">
 
-<button
-type="submit"
-name="login"
-class="btn btn-success w-100">
+                Registrarse
 
-Ingresar
+            </a>
 
-</button>
+        </div>
 
-</form>
-
-<div class="text-center mt-4">
-
-<a href="registro.php">
-
-Registrarse
-</a>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 

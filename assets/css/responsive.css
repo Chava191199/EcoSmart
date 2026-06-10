@@ -1,0 +1,49 @@
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:768px){
+
+    body{
+        padding-top:180px;
+    }
+
+    .floating-navbar{
+
+        flex-direction:column;
+
+        gap:15px;
+    }
+
+    .nav-links{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+    }
+
+    .hero h1{
+
+        font-size:45px;
+    }
+
+    .hero p{
+
+        font-size:20px;
+    }
+
+    .hero-logo{
+
+        width:180px;
+    }
+
+    .login-box{
+
+        width:95%;
+    }
+
+    .table-admin{
+
+        font-size:14px;
+    }
+}

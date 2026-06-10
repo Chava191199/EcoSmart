@@ -6,55 +6,190 @@ $mensaje = "";
 
 if(isset($_POST['registro'])){
 
-    $nombre = mysqli_real_escape_string(
+    $nombre = trim(
+        mysqli_real_escape_string(
+            $conexion,
+            $_POST['nombre']
+        )
+    );
+
+    $correo = trim(
+        mysqli_real_escape_string(
+            $conexion,
+            $_POST['correo']
+        )
+    );
+
+    $telefono = trim(
+        mysqli_real_escape_string(
+            $conexion,
+            $_POST['telefono']
+        )
+    );
+
+    $tipo_usuario = mysqli_real_escape_string(
         $conexion,
-        $_POST['nombre']
+        $_POST['tipo_usuario']
     );
 
-    $correo = mysqli_real_escape_string(
-        $conexion,
-        $_POST['correo']
+    $password = password_hash(
+        $_POST['password'],
+        PASSWORD_DEFAULT
     );
 
-    $password = md5(
-        $_POST['password']
-    );
+    /* FOTO POR DEFECTO */
 
-    $verificar = mysqli_query(
-        $conexion,
-        "SELECT * FROM usuarios
-         WHERE correo='$correo'"
-    );
+    $foto = "default.png";
 
-    if(mysqli_num_rows($verificar) > 0){
+    /* VALIDAR TELÉFONO */
+
+    if(!preg_match('/^[0-9]{10,15}$/', $telefono)){
 
         $mensaje =
-        "El correo ya existe";
+        "El teléfono debe contener entre 10 y 15 dígitos.";
 
     }else{
 
-        $sql = "INSERT INTO usuarios(
-                nombre,
-                correo,
-                password
+        /* VALIDAR CORREO DUPLICADO */
+
+        $verificar = mysqli_query(
+            $conexion,
+            "SELECT id
+             FROM usuarios
+             WHERE correo='$correo'"
+        );
+
+        if(mysqli_num_rows($verificar) > 0){
+
+            $mensaje =
+            "El correo ya está registrado.";
+
+        }else{
+
+            /* SUBIR FOTO */
+
+            if(
+                isset($_FILES['foto']) &&
+                $_FILES['foto']['error'] == 0
+            ){
+
+                $permitidos = [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                    'webp',
+                    'avif'
+                ];
+
+                $extension = strtolower(
+                    pathinfo(
+                        $_FILES['foto']['name'],
+                        PATHINFO_EXTENSION
+                    )
+                );
+
+                if(
+                    !in_array(
+                        $extension,
+                        $permitidos
+                    )
+                ){
+
+                    $mensaje =
+                    "Formato de imagen no permitido.";
+
+                }elseif(
+                    $_FILES['foto']['size']
+                    > 5 * 1024 * 1024
+                ){
+
+                    $mensaje =
+                    "La imagen supera los 5MB.";
+
+                }else{
+
+                    if(
+                        !is_dir(
+                            "../uploads/perfiles"
+                        )
+                    ){
+
+                        mkdir(
+                            "../uploads/perfiles",
+                            0777,
+                            true
+                        );
+                    }
+
+                    $foto =
+                    time()
+                    . "_"
+                    . uniqid()
+                    . "."
+                    . $extension;
+
+                    move_uploaded_file(
+
+                        $_FILES['foto']['tmp_name'],
+
+                        "../uploads/perfiles/"
+                        . $foto
+
+                    );
+                }
+            }
+
+            /* INSERTAR USUARIO */
+
+            if($mensaje == ""){
+
+                $sql = "
+
+                INSERT INTO usuarios(
+
+                    nombre,
+                    correo,
+                    telefono,
+                    tipo_usuario,
+                    foto,
+                    password,
+                    rol
+
                 )
 
                 VALUES(
-                '$nombre',
-                '$correo',
-                '$password'
-                )";
 
-        if(mysqli_query(
-            $conexion,
-            $sql
-        )){
+                    '$nombre',
+                    '$correo',
+                    '$telefono',
+                    '$tipo_usuario',
+                    '$foto',
+                    '$password',
+                    'usuario'
 
-            header(
-            "Location: login.php"
-            );
+                )
 
-            exit();
+                ";
+
+                if(
+                    mysqli_query(
+                        $conexion,
+                        $sql
+                    )
+                ){
+
+                    header(
+                        'Location: login.php?registro=ok'
+                    );
+
+                    exit();
+
+                }else{
+
+                    $mensaje =
+                    "Error al registrar usuario.";
+                }
+            }
         }
     }
 }
@@ -66,100 +201,131 @@ if(isset($_POST['registro'])){
 
 <div class="login-container">
 
-<div class="login-box">
+    <div class="login-box">
 
-<img
-src="/EcoSmart/assets/img/logo.png"
-class="login-logo">
+        <img
+        src="/EcoSmart/assets/img/logo.png"
+        class="login-logo">
 
-<h2 class="text-center mb-4">
+        <h2 class="text-center mb-4">
 
-Registro
+            Registro EcoSmart
 
-</h2>
+        </h2>
 
-<?php if($mensaje != ""): ?>
+        <?php if($mensaje != ""): ?>
 
-<div class="alert alert-warning">
+            <div class="alert alert-warning">
 
-<?php echo $mensaje; ?>
+                <?= $mensaje ?>
 
-</div>
+            </div>
 
-<?php endif; ?>
+        <?php endif; ?>
 
-<form method="POST">
+        <form
+        method="POST"
+        enctype="multipart/form-data"
+        autocomplete="on">
 
-<div class="mb-3">
+            <div class="mb-3">
 
-<label>
+                <label>Nombre</label>
 
-Nombre
+                <input
+                type="text"
+                name="nombre"
+                autocomplete="name"
+                class="form-control"
+                required>
 
-</label>
+            </div>
 
-<input
-type="text"
-name="nombre"
-class="form-control"
-required>
+            <div class="mb-3">
 
-</div>
+                <label>Correo</label>
 
-<div class="mb-3">
+                <input
+                type="email"
+                name="correo"
+                autocomplete="email"
+                class="form-control"
+                required>
 
-<label>
+            </div>
 
-Correo
+            <div class="mb-3">
 
-</label>
+                <label>Teléfono</label>
 
-<input
-type="email"
-name="correo"
-class="form-control"
-required>
+                <input
+                type="tel"
+                name="telefono"
+                autocomplete="tel"
+                class="form-control"
+                placeholder="8123456789"
+                pattern="[0-9]{10,15}"
+                required>
 
-</div>
+            </div>
 
-<div class="mb-4">
+            <div class="mb-3">
 
-<label>
+                <label>Tipo de Cuenta</label>
 
-Contraseña
+                <select
+                name="tipo_usuario"
+                class="form-control">
 
-</label>
+                    <option value="personal">
+                        Personal
+                    </option>
 
-<input
-type="password"
-name="password"
-class="form-control"
-required>
+                    <option value="empresa">
+                        Empresa
+                    </option>
 
-</div>
+                </select>
 
-<button
-type="submit"
-name="registro"
-class="btn btn-success w-100">
+            </div>
 
-Registrarse
+            <div class="mb-3">
 
-</button>
+                <label>Foto de Perfil</label>
 
-</form>
+                <input
+                type="file"
+                name="foto"
+                accept=".jpg,.jpeg,.png,.webp,.avif"
+                class="form-control">
 
-<div class="text-center mt-4">
+            </div>
 
-<a href="login.php">
+            <div class="mb-4">
 
-Ya tengo cuenta
+                <label>Contraseña</label>
 
-</a>
+                <input
+                type="password"
+                name="password"
+                autocomplete="new-password"
+                class="form-control"
+                required>
 
-</div>
+            </div>
 
-</div>
+            <button
+            type="submit"
+            name="registro"
+            class="btn btn-success w-100">
+
+                Registrarse
+
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
