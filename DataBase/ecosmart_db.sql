@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2026 a las 04:41:41
+-- Tiempo de generación: 10-06-2026 a las 02:49:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -24,6 +24,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `campanas`
+--
+
+CREATE TABLE `campanas` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(150) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `estado` enum('activa','finalizada') DEFAULT 'activa'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `consumo_energetico`
 --
 
@@ -37,6 +52,21 @@ CREATE TABLE `consumo_energetico` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `proyectos`
+--
+
+CREATE TABLE `proyectos` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(150) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `responsable` varchar(100) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `reciclaje`
 --
 
@@ -45,7 +75,8 @@ CREATE TABLE `reciclaje` (
   `usuario_id` int(11) DEFAULT NULL,
   `material` varchar(100) DEFAULT NULL,
   `cantidad` float DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `puntos` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -61,21 +92,29 @@ CREATE TABLE `usuarios` (
   `password` varchar(255) DEFAULT NULL,
   `rol` enum('admin','usuario') DEFAULT 'usuario',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
-  `foto` varchar(255) DEFAULT 'default.png'
+  `foto` varchar(255) DEFAULT 'default.png',
+  `telefono` varchar(20) DEFAULT NULL,
+  `tipo_usuario` enum('personal','empresa') DEFAULT 'personal',
+  `eco_puntos` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `rol`, `fecha_registro`, `foto`) VALUES
-(1, 'Hector del Toro', 'hector@gmail.com', '$2y$10$2YFo7cfop4oPQcSjfh2SnuB8qCmbE9ab9LIyJ9f9Z900Tn98DHh2C', 'admin', '2026-05-27 00:37:48', 'default.png'),
-(2, 'Administrador', 'admin@ecosmart.com', '0192023a7bbd73250516f069df18b500', 'admin', '2026-05-30 21:09:51', 'default.png'),
-(3, 'christian refugio', 'christian@gmail.com', '71be294746389f836c26e7963ee52178', 'usuario', '2026-05-30 22:23:39', 'default.png');
+INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `rol`, `fecha_registro`, `foto`, `telefono`, `tipo_usuario`, `eco_puntos`) VALUES
+(2, 'Administrador', 'admin@ecosmart.com', '0192023a7bbd73250516f069df18b500', 'admin', '2026-05-30 21:09:51', 'default.png', NULL, 'personal', 0),
+(3, 'christian refugio', 'christian@gmail.com', '71be294746389f836c26e7963ee52178', 'usuario', '2026-05-30 22:23:39', 'default.png', NULL, 'personal', 0);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `campanas`
+--
+ALTER TABLE `campanas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `consumo_energetico`
@@ -83,6 +122,12 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `rol`, `fecha_regi
 ALTER TABLE `consumo_energetico`
   ADD PRIMARY KEY (`id`),
   ADD KEY `usuario_id` (`usuario_id`);
+
+--
+-- Indices de la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `reciclaje`
@@ -103,9 +148,21 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `campanas`
+--
+ALTER TABLE `campanas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `consumo_energetico`
 --
 ALTER TABLE `consumo_energetico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

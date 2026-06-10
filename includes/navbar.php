@@ -1,9 +1,7 @@
 <?php
-
 if(session_status() == PHP_SESSION_NONE){
     session_start();
 }
-
 ?>
 
 <nav class="floating-navbar">
@@ -31,42 +29,72 @@ if(session_status() == PHP_SESSION_NONE){
             🏠 Inicio
         </a>
 
-        <a href="/EcoSmart/index.php#informacion">
+        <a href="/EcoSmart/paginas/informacion.php">
             📘 Información
         </a>
 
-        <a href="/EcoSmart/index.php#campanas">
+        <a href="/EcoSmart/paginas/campañas.php">
             🌱 Campañas
         </a>
 
-        <a href="/EcoSmart/index.php#proyectos">
+        <a href="/EcoSmart/paginas/proyectos.php">
             🚀 Proyectos
         </a>
 
         <?php if(isset($_SESSION['usuario'])): ?>
+
+            <?php
+
+            $foto = "default.avif";
+
+            if(
+                isset($_SESSION['foto']) &&
+                !empty($_SESSION['foto']) &&
+                $_SESSION['foto'] != "NULL"
+            ){
+                $foto = $_SESSION['foto'];
+            }
+
+            ?>
 
             <div class="user-dropdown">
 
                 <button
                     type="button"
                     class="user-btn"
-                    onclick="toggleUserMenu(event)">
+                    onclick="toggleUserMenu(event)"
+                >
 
-                    👤 <?= htmlspecialchars($_SESSION['usuario']) ?>
+                    <img
+                        src="/EcoSmart/uploads/perfiles/<?php echo $foto; ?>"
+                        alt="Perfil"
+                        class="navbar-profile"
+                        onerror="this.src='/EcoSmart/uploads/perfiles/default.avif';"
+                    >
 
-                    <span class="arrow">▼</span>
+                    <span>
+                        <?= htmlspecialchars($_SESSION['usuario']) ?>
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
 
                 </button>
 
                 <div
                     id="userMenu"
-                    class="user-menu">
+                    class="user-menu"
+                >
 
                     <a href="/EcoSmart/perfil.php">
                         ⚙️ Mi Perfil
                     </a>
 
-                    <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+                    <?php if(
+                        isset($_SESSION['rol']) &&
+                        $_SESSION['rol'] === 'admin'
+                    ): ?>
 
                         <a href="/EcoSmart/admin/dashboard.php">
                             📊 Dashboard
@@ -94,10 +122,9 @@ if(session_status() == PHP_SESSION_NONE){
 
             <a
                 href="/EcoSmart/auth/registro.php"
-                class="register-btn">
-
+                class="register-btn"
+            >
                 ✨ Registrarse
-
             </a>
 
         <?php endif; ?>
@@ -105,3 +132,52 @@ if(session_status() == PHP_SESSION_NONE){
     </div>
 
 </nav>
+
+<script>
+
+function toggleUserMenu(event){
+
+    event.stopPropagation();
+
+    const menu =
+    document.getElementById("userMenu");
+
+    if(menu){
+
+        menu.classList.toggle("show");
+
+    }
+}
+
+document.addEventListener(
+    "click",
+    function(){
+
+        const menu =
+        document.getElementById("userMenu");
+
+        if(menu){
+
+            menu.classList.remove("show");
+
+        }
+
+    }
+);
+
+const userBtn =
+document.querySelector(".user-btn");
+
+if(userBtn){
+
+    userBtn.addEventListener(
+        "click",
+        function(event){
+
+            event.stopPropagation();
+
+        }
+    );
+}
+
+</script>

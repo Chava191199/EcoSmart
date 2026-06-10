@@ -18,9 +18,29 @@ rel="stylesheet">
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 rel="stylesheet">
 
-<link
-rel="stylesheet"
-href="/ECOSMART/assets/css/style.css">
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/main.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/navbar.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/hero.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/cards.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/forms.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/admin.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/footer.css">
+
+<link rel="stylesheet"
+href="/ECOSMART/assets/css/responsive.css">
 
 </head>
 

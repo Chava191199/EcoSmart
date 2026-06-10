@@ -1,0 +1,306 @@
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.floating-navbar{
+
+    position:fixed;
+
+    top:15px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:95%;
+
+    padding:15px 30px;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    border-radius:25px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    z-index:9999;
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,.3);
+}
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+}
+
+.logo-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:bold;
+}
+
+.logo-img{
+
+    width:65px;
+
+    transition:.4s;
+
+    animation:floatLogo 3s infinite ease-in-out;
+}
+
+.logo-img:hover{
+
+    transform:scale(1.1);
+}
+
+@keyframes floatLogo{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:600;
+
+    padding:12px 18px;
+
+    border-radius:15px;
+
+    transition:.3s;
+}
+
+.nav-links a:hover{
+
+    background:rgba(255,255,255,.15);
+}
+
+/* =====================================================
+   BOTÓN REGISTRO
+===================================================== */
+
+.register-btn{
+
+    background:
+    linear-gradient(
+        45deg,
+        #00c853,
+        #64dd17
+    );
+
+    color:white !important;
+
+    font-weight:bold;
+}
+
+.register-btn:hover{
+
+    background:
+    linear-gradient(
+        45deg,
+        #00e676,
+        #76ff03
+    );
+}
+
+/* =====================================================
+   USUARIO
+===================================================== */
+
+.user-dropdown{
+
+    position:relative;
+}
+
+/* FOTO PERFIL */
+
+.navbar-profile{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid #64dd17;
+}
+
+/* BOTÓN USUARIO */
+
+.user-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border:none;
+
+    background:rgba(255,255,255,.15);
+
+    color:white;
+
+    padding:10px 15px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-weight:600;
+}
+
+.user-btn:hover{
+
+    background:rgba(255,255,255,.25);
+}
+
+/* FLECHA */
+
+.arrow{
+
+    font-size:12px;
+}
+
+/* =====================================================
+   MENÚ DESPLEGABLE
+===================================================== */
+
+.user-menu{
+
+    position:absolute;
+
+    top:60px;
+
+    right:0;
+
+    width:240px;
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    display:none;
+
+    z-index:99999;
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.25);
+}
+
+/* SE MUESTRA CON JS */
+
+.user-menu.show{
+
+    display:block;
+}
+
+.user-menu a{
+
+    display:block;
+
+    padding:15px;
+
+    color:#333;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.user-menu a:hover{
+
+    background:#f4f4f4;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:768px){
+
+    .floating-navbar{
+
+        flex-direction:column;
+
+        gap:15px;
+    }
+
+    .nav-links{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+    }
+
+    .logo-link{
+
+        font-size:22px;
+    }
+
+    .user-menu{
+
+        right:auto;
+
+        left:50%;
+
+        transform:translateX(-50%);
+    }
+}
