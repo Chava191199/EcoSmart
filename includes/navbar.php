@@ -45,12 +45,11 @@ if(session_status() == PHP_SESSION_NONE){
 
             <?php
 
-            $foto = "default.avif";
+            $foto = "default.png";
 
             if(
                 isset($_SESSION['foto']) &&
-                !empty($_SESSION['foto']) &&
-                $_SESSION['foto'] != "NULL"
+                !empty($_SESSION['foto'])
             ){
                 $foto = $_SESSION['foto'];
             }
@@ -62,15 +61,13 @@ if(session_status() == PHP_SESSION_NONE){
                 <button
                     type="button"
                     class="user-btn"
-                    onclick="toggleUserMenu(event)"
-                >
+                    id="userBtn">
 
                     <img
                         src="/EcoSmart/uploads/perfiles/<?php echo $foto; ?>"
                         alt="Perfil"
                         class="navbar-profile"
-                        onerror="this.src='/EcoSmart/uploads/perfiles/default.avif';"
-                    >
+                        onerror="this.src='/EcoSmart/uploads/perfiles/default.png';">
 
                     <span>
                         <?= htmlspecialchars($_SESSION['usuario']) ?>
@@ -84,8 +81,7 @@ if(session_status() == PHP_SESSION_NONE){
 
                 <div
                     id="userMenu"
-                    class="user-menu"
-                >
+                    class="user-menu">
 
                     <a href="/EcoSmart/perfil.php">
                         ⚙️ Mi Perfil
@@ -122,9 +118,10 @@ if(session_status() == PHP_SESSION_NONE){
 
             <a
                 href="/EcoSmart/auth/registro.php"
-                class="register-btn"
-            >
+                class="register-btn">
+
                 ✨ Registrarse
+
             </a>
 
         <?php endif; ?>
@@ -135,49 +132,59 @@ if(session_status() == PHP_SESSION_NONE){
 
 <script>
 
-function toggleUserMenu(event){
-
-    event.stopPropagation();
-
-    const menu =
-    document.getElementById("userMenu");
-
-    if(menu){
-
-        menu.classList.toggle("show");
-
-    }
-}
-
 document.addEventListener(
-    "click",
+    "DOMContentLoaded",
     function(){
 
+        const btn =
+        document.getElementById(
+            "userBtn"
+        );
+
         const menu =
-        document.getElementById("userMenu");
+        document.getElementById(
+            "userMenu"
+        );
 
-        if(menu){
+        if(btn && menu){
 
-            menu.classList.remove("show");
+            btn.addEventListener(
+                "click",
+                function(e){
 
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    menu.classList.toggle(
+                        "show"
+                    );
+
+                }
+            );
+
+            menu.addEventListener(
+                "click",
+                function(e){
+
+                    e.stopPropagation();
+
+                }
+            );
+
+            document.addEventListener(
+                "click",
+                function(){
+
+                    menu.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
         }
 
     }
 );
-
-const userBtn =
-document.querySelector(".user-btn");
-
-if(userBtn){
-
-    userBtn.addEventListener(
-        "click",
-        function(event){
-
-            event.stopPropagation();
-
-        }
-    );
-}
 
 </script>
