@@ -2,7 +2,7 @@
 
 session_start();
 
-include '../config/conexion.php';
+include __DIR__ . '/../config/conexion.php';
 
 $error = "";
 
