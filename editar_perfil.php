@@ -10,7 +10,7 @@ if (!isset($_SESSION['id'])) {
 $id = $_SESSION['id'];
 
 $stmt = $conexion->prepare(
-    "SELECT nombre, correo, telefono
+    "SELECT nombre, correo, telefono, foto
      FROM usuarios
      WHERE id=?"
 );
@@ -26,30 +26,86 @@ if(isset($_POST['actualizar'])){
     $correo = trim($_POST['correo']);
     $telefono = trim($_POST['telefono']);
 
+    $foto = $usuario['foto'];
+
+    /* SUBIR NUEVA FOTO */
+
+    if(
+        isset($_FILES['foto']) &&
+        $_FILES['foto']['error'] == 0
+    ){
+
+        $permitidos = [
+            'jpg',
+            'jpeg',
+            'png',
+            'webp',
+            'avif'
+        ];
+
+        $extension = strtolower(
+            pathinfo(
+                $_FILES['foto']['name'],
+                PATHINFO_EXTENSION
+            )
+        );
+
+        if(in_array($extension, $permitidos)){
+
+            if(!is_dir("uploads/perfiles")){
+                mkdir(
+                    "uploads/perfiles",
+                    0777,
+                    true
+                );
+            }
+
+            $nuevoNombre =
+            time() .
+            "_" .
+            uniqid() .
+            "." .
+            $extension;
+
+            move_uploaded_file(
+                $_FILES['foto']['tmp_name'],
+                "uploads/perfiles/" .
+                $nuevoNombre
+            );
+
+            $foto = $nuevoNombre;
+        }
+    }
+
     $stmt = $conexion->prepare(
         "UPDATE usuarios
          SET nombre=?,
              correo=?,
-             telefono=?
+             telefono=?,
+             foto=?
          WHERE id=?"
     );
 
     $stmt->bind_param(
-        "sssi",
+        "ssssi",
         $nombre,
         $correo,
         $telefono,
+        $foto,
         $id
     );
 
     if($stmt->execute()){
 
+        $_SESSION['usuario'] = $nombre;
         $_SESSION['correo'] = $correo;
         $_SESSION['telefono'] = $telefono;
-        $_SESSION['usuario'] = $nombre;
+        $_SESSION['foto'] = $foto;
 
         $mensaje =
         "Perfil actualizado correctamente";
+
+        $usuario['foto'] = $foto;
 
     }else{
 
@@ -77,14 +133,45 @@ if(isset($_POST['actualizar'])){
             <?php if(isset($mensaje)){ ?>
 
                 <div class="alert alert-info">
-
                     <?php echo $mensaje; ?>
-
                 </div>
 
             <?php } ?>
 
-            <form method="POST">
+            <form
+                method="POST"
+                enctype="multipart/form-data">
+
+                <div class="text-center mb-4">
+
+                    <img
+                    src="uploads/perfiles/<?=
+                    !empty($usuario['foto'])
+                    ? $usuario['foto']
+                    : 'default.png'
+                    ?>"
+                    style="
+                    width:150px;
+                    height:150px;
+                    border-radius:50%;
+                    object-fit:cover;
+                    border:4px solid #28a745;">
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>
+                        Cambiar Foto
+                    </label>
+
+                    <input
+                    type="file"
+                    name="foto"
+                    class="form-control"
+                    accept=".jpg,.jpeg,.png,.webp,.avif">
+
+                </div>
 
                 <div class="mb-3">
 
@@ -94,10 +181,7 @@ if(isset($_POST['actualizar'])){
                     type="text"
                     name="nombre"
                     class="form-control"
-                    value="<?=
-                    htmlspecialchars(
-                    $usuario['nombre']
-                    ) ?>"
+                    value="<?= htmlspecialchars($usuario['nombre']) ?>"
                     required>
 
                 </div>
@@ -110,10 +194,7 @@ if(isset($_POST['actualizar'])){
                     type="email"
                     name="correo"
                     class="form-control"
-                    value="<?=
-                    htmlspecialchars(
-                    $usuario['correo']
-                    ) ?>"
+                    value="<?= htmlspecialchars($usuario['correo']) ?>"
                     required>
 
                 </div>
@@ -126,16 +207,14 @@ if(isset($_POST['actualizar'])){
                     type="text"
                     name="telefono"
                     class="form-control"
-                    value="<?=
-                    htmlspecialchars(
-                    $usuario['telefono']
-                    ) ?>">
+                    value="<?= htmlspecialchars($usuario['telefono']) ?>">
 
                 </div>
 
                 <button
-                class="btn btn-success"
-                name="actualizar">
+                type="submit"
+                name="actualizar"
+                class="btn btn-success">
 
                     Guardar Cambios
 

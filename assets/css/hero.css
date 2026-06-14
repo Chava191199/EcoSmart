@@ -13,11 +13,21 @@
     align-items:center;
 
     text-align:center;
+
+    padding:120px 20px 50px;
 }
+
+/* =====================================================
+   LOGO
+===================================================== */
 
 .hero-logo{
 
-    width:250px;
+    width:320px;
+
+    max-width:100%;
+
+    margin-bottom:25px;
 
     animation:pulseLogo 4s infinite;
 }
@@ -37,6 +47,10 @@
     }
 }
 
+/* =====================================================
+   TITULO
+===================================================== */
+
 .hero h1{
 
     font-size:90px;
@@ -47,6 +61,10 @@
     0 0 20px rgba(100,221,23,.4);
 }
 
+/* =====================================================
+   TEXTO
+===================================================== */
+
 .hero p{
 
     font-size:28px;
@@ -54,11 +72,32 @@
     margin-top:20px;
 }
 
+/* =====================================================
+   ENLACES DEL HERO
+===================================================== */
+
+.hero a,
+.hero a:hover,
+.hero a:focus,
+.hero a:active,
+.hero a:visited{
+
+    text-decoration:none !important;
+
+    color:white !important;
+}
+
+/* =====================================================
+   BOTÓN
+===================================================== */
+
 .hero-btn{
+
+    display:inline-block;
 
     margin-top:30px;
 
-    padding:18px 40px;
+    padding:18px 45px;
 
     border:none;
 
@@ -71,9 +110,78 @@
         #64dd17
     );
 
-    color:white;
+    color:white !important;
 
-    font-size:22px;
+    text-decoration:none !important;
+
+    font-size:24px;
+
+    font-weight:bold;
 
     cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+    0 8px 25px rgba(0,200,83,.3);
+}
+
+.hero-btn:hover,
+.hero-btn:focus,
+.hero-btn:active,
+.hero-btn:visited{
+
+    color:white !important;
+
+    text-decoration:none !important;
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 12px 30px rgba(0,200,83,.4);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:768px){
+
+    .hero h1{
+
+        font-size:55px;
+    }
+
+    .hero p{
+
+        font-size:22px;
+    }
+
+    .hero-logo{
+
+        width:220px;
+    }
+
+    .hero-btn{
+
+        font-size:20px;
+
+        padding:15px 35px;
+    }
+}
+.hero-btn,
+.hero-btn:link,
+.hero-btn:visited,
+.hero-btn:hover,
+.hero-btn:focus,
+.hero-btn:active{
+
+    text-decoration:none !important;
+
+    color:white !important;
+}
+
+.hero .hero-btn{
+
+    text-decoration:none !important;
 }
