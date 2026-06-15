@@ -7,7 +7,6 @@ if(session_status() == PHP_SESSION_NONE){
 <nav class="floating-navbar">
 
     <!-- LOGO -->
-
     <div class="logo">
 
         <a href="/EcoSmart/index.php" class="logo-link">
@@ -24,7 +23,6 @@ if(session_status() == PHP_SESSION_NONE){
     </div>
 
     <!-- MENÚ -->
-
     <div class="nav-links">
 
         <a href="/EcoSmart/index.php">
@@ -52,9 +50,7 @@ if(session_status() == PHP_SESSION_NONE){
 
                     ⚡ Consumos
 
-                    <span class="arrow">
-                        ▼
-                    </span>
+                    <span class="arrow">▼</span>
 
                 </button>
 
@@ -107,9 +103,7 @@ if(session_status() == PHP_SESSION_NONE){
                     onerror="this.src='/EcoSmart/uploads/perfiles/default.avif';">
 
                     <span>
-
                         <?= htmlspecialchars($_SESSION['usuario']) ?>
-
                     </span>
 
                     <span class="arrow">
@@ -123,8 +117,22 @@ if(session_status() == PHP_SESSION_NONE){
                 class="user-menu">
 
                     <a href="/EcoSmart/perfil.php">
-                        ⚙️ Mi Perfil
+                        👤 Mi Perfil
                     </a>
+
+                    <a href="/EcoSmart/dashboard_usuario.php">
+                        📜 Mi Historial
+                    </a>
+
+                    <a href="/EcoSmart/paginas/registrar_reciclaje.php">
+                        ♻️ Registrar Reciclaje
+                    </a>
+
+                    <a href="/EcoSmart/top_usuarios.php">
+                        🏆 Ranking Ecológico
+                    </a>
+
+                    <hr>
 
                     <?php if(
                         isset($_SESSION['rol']) &&
@@ -132,12 +140,14 @@ if(session_status() == PHP_SESSION_NONE){
                     ): ?>
 
                         <a href="/EcoSmart/admin/dashboard.php">
-                            📊 Dashboard
+                            👑 Panel Admin
                         </a>
 
                         <a href="/EcoSmart/admin/usuarios.php">
                             👥 Usuarios
                         </a>
+
+                        <hr>
 
                     <?php endif; ?>
 
@@ -195,15 +205,11 @@ document.addEventListener(
 
                     e.stopPropagation();
 
-                    userMenu.classList.toggle(
-                        "show"
-                    );
+                    userMenu.classList.toggle("show");
 
                     if(consumoMenu){
 
-                        consumoMenu.classList.remove(
-                            "show"
-                        );
+                        consumoMenu.classList.remove("show");
 
                     }
 
@@ -224,15 +230,11 @@ document.addEventListener(
 
                     e.stopPropagation();
 
-                    consumoMenu.classList.toggle(
-                        "show"
-                    );
+                    consumoMenu.classList.toggle("show");
 
                     if(userMenu){
 
-                        userMenu.classList.remove(
-                            "show"
-                        );
+                        userMenu.classList.remove("show");
 
                     }
 
@@ -241,23 +243,21 @@ document.addEventListener(
 
         }
 
+        /* CERRAR MENÚS */
+
         document.addEventListener(
             "click",
             function(){
 
                 if(userMenu){
 
-                    userMenu.classList.remove(
-                        "show"
-                    );
+                    userMenu.classList.remove("show");
 
                 }
 
                 if(consumoMenu){
 
-                    consumoMenu.classList.remove(
-                        "show"
-                    );
+                    consumoMenu.classList.remove("show");
 
                 }
 

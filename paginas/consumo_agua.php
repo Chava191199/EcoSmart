@@ -1,5 +1,15 @@
 <?php
+
 session_start();
+
+include __DIR__.'/../config/conexion.php';
+
+if(!isset($_SESSION['id'])){
+    header("Location: ../auth/login.php");
+    exit();
+}
+
+$usuario_id = $_SESSION['id'];
 
 include __DIR__.'/../includes/header.php';
 include __DIR__.'/../includes/navbar.php';
@@ -10,7 +20,19 @@ $nivel = "";
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 
-    $agua = floatval($_POST["agua"] ?? 0);
+    $agua = floatval($_POST["agua"]);
+
+    mysqli_query(
+        $conexion,
+        "INSERT INTO consumo_agua(
+            usuario_id,
+            consumo
+        )
+        VALUES(
+            '$usuario_id',
+            '$agua'
+        )"
+    );
 
     $precio = 0.030;
 
@@ -29,6 +51,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 ?>
 
 <section class="page-header">
+
 <div class="container text-center">
 
 <h1>💧 Consumo de Agua</h1>
@@ -36,6 +59,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 <p>Calcula tu consumo de agua</p>
 
 </div>
+
 </section>
 
 <div class="container">
@@ -70,33 +94,31 @@ Calcular
 
 <?php if($_SERVER["REQUEST_METHOD"]=="POST"): ?>
 
-<div class="section-box mt-4">
+<div class="section-box">
 
 <h2>📊 Resultado</h2>
 
 <hr>
 
-<div class="card-custom">
-
 <h3>
+
 Consumo:
-<?php echo number_format($agua,2); ?>
-L
+<?= number_format($agua,2) ?> L
+
 </h3>
 
 <h3>
+
 Costo:
-$
-<?php echo number_format($costo,2); ?>
+$<?= number_format($costo,2) ?>
+
 </h3>
 
 <h3>
 
-<?php echo $nivel; ?>
+<?= $nivel ?>
 
 </h3>
-
-</div>
 
 </div>
 
@@ -104,7 +126,4 @@ $
 
 </div>
 
-<?php
-include __DIR__.'/../includes/footer.php';
-?>
-```
+<?php include __DIR__.'/../includes/footer.php'; ?>

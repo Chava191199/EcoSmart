@@ -1,5 +1,15 @@
 <?php
+
 session_start();
+
+include __DIR__.'/../config/conexion.php';
+
+if(!isset($_SESSION['id'])){
+    header("Location: ../auth/login.php");
+    exit();
+}
+
+$usuario_id = $_SESSION['id'];
 
 include __DIR__.'/../includes/header.php';
 include __DIR__.'/../includes/navbar.php';
@@ -10,7 +20,19 @@ $nivel = "";
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 
-    $gas = floatval($_POST["gas"] ?? 0);
+    $gas = floatval($_POST["gas"]);
+
+    mysqli_query(
+        $conexion,
+        "INSERT INTO consumo_gas(
+            usuario_id,
+            consumo
+        )
+        VALUES(
+            '$usuario_id',
+            '$gas'
+        )"
+    );
 
     $precio = 12.50;
 
@@ -72,39 +94,31 @@ Calcular
 
 <?php if($_SERVER["REQUEST_METHOD"]=="POST"): ?>
 
-<div class="section-box mt-4">
+<div class="section-box">
 
 <h2>📊 Resultado</h2>
 
 <hr>
 
-<div class="card-custom">
-
 <h3>
 
 Consumo:
-<?php echo number_format($gas,2); ?>
-
-m³
+<?= number_format($gas,2) ?> m³
 
 </h3>
 
 <h3>
 
 Costo:
-$
-
-<?php echo number_format($costo,2); ?>
+$<?= number_format($costo,2) ?>
 
 </h3>
 
 <h3>
 
-<?php echo $nivel; ?>
+<?= $nivel ?>
 
 </h3>
-
-</div>
 
 </div>
 
@@ -112,7 +126,4 @@ $
 
 </div>
 
-<?php
-include __DIR__.'/../includes/footer.php';
-?>
-```
+<?php include __DIR__.'/../includes/footer.php'; ?>
