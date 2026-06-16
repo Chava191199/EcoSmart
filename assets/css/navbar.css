@@ -257,6 +257,23 @@
     background:#f4f4f4;
 }
 
+/* Botón hamburguesa */
+.menu-toggle{
+    display: none;
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: #fbfeff;
+    cursor: pointer;
+}
+
+/* Menú normal escritorio */
+.nav-links{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -270,22 +287,41 @@
         gap:15px;
     }
 
+    /* Logo izquierda */
+.logo{
+    display:flex;
+    align-items:center;
+}
+
+
+   .menu-toggle{
+        display: block;
+        margin-left: auto;
+    }
+
     .nav-links{
-
-        justify-content:center;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 10px;
+        right: 10px;
+        margin-top: 10px;
+        background: #141414;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.2);
+        flex-direction: column;
+        z-index: 1000;
     }
 
-    .logo-link{
-
-        font-size:22px;
+    .nav-links.active{
+        display: flex;
     }
 
-    .user-menu{
-
-        right:auto;
-
-        left:50%;
-
-        transform:translateX(-50%);
+    .nav-links a,
+    .user-btn{
+        width: 100%;
+        text-align: center;
+        padding: 10px;
     }
 }
