@@ -36,6 +36,9 @@ if(session_status() == PHP_SESSION_NONE){
         <a href="/EcoSmart/paginas/proyectos.php">
             🚀 Proyectos
         </a>
+        <a href="/EcoSmart/paginas/funcionalidades.php">
+            ⚙️ Funcionalidades
+        </a>
 
         <?php if(isset($_SESSION['usuario'])): ?>
 
