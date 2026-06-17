@@ -344,7 +344,7 @@ body {
 }
 
 .hero-logo {
-    width: 250px;
+    width: 1920px;
     animation: pulseLogo 4s infinite;
 }
 
@@ -1093,7 +1093,7 @@ body {
     }
 
     .hero-logo {
-        width: 180px;
+        width: 1920px;
     }
 
     .section-box{

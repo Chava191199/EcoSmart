@@ -14,7 +14,7 @@
 
     text-align:center;
 
-    padding:120px 20px 50px;
+    padding:40px 20px 50px;
 }
 
 /* =====================================================
@@ -23,11 +23,15 @@
 
 .hero-logo{
 
-    width:320px;
+    width:500px !important;
 
-    max-width:100%;
+    max-width:90%;
 
-    margin-bottom:25px;
+    height:auto;
+
+    display:block;
+
+    margin:0 auto 25px auto;
 
     animation:pulseLogo 4s infinite;
 }

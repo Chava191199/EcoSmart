@@ -14,10 +14,6 @@ include 'includes/navbar.php';
         class="hero-logo"
         alt="EcoSmart">
 
-        <h1>
-            EcoSmart Solutions
-        </h1>
-
         <p>
             Tecnología sostenible para la ODS 13:
             Acción por el Clima
