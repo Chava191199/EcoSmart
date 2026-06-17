@@ -22,6 +22,11 @@ if(session_status() == PHP_SESSION_NONE){
 
     </div>
 
+     <button id="menuToggle" class="menu-toggle">
+    ☰
+</button>
+
+
     <!-- MENÚ -->
     <div class="nav-links">
 
@@ -220,6 +225,14 @@ document.addEventListener(
             );
 
         }
+
+        
+        const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.querySelector(".nav-links");
+
+menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
 
         /* MENÚ CONSUMOS */
 
