@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-06-2026 a las 23:55:10
+-- Tiempo de generación: 21-06-2026 a las 00:34:59
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -104,6 +104,28 @@ INSERT INTO `funcionalidades` (`id`, `titulo`, `descripcion`, `icono`, `categori
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `noticias`
+--
+
+CREATE TABLE `noticias` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `contenido` text NOT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `noticias`
+--
+
+INSERT INTO `noticias` (`id`, `titulo`, `contenido`, `imagen`, `fecha`) VALUES
+(1, 'Causas Principales del cambio climatico', 'La actividad humana es el motor principal de esta crisis.Combustibles fósiles: El uso de carbón, petróleo y gas representa más del 75% de las emisiones globales de gases de efecto invernadero.Deforestación: La tala y destrucción de bosques elimina sumideros naturales clave que absorben el dióxido de carbono de la atmósfera.', '1781993665_consequences_natural.jpg', '2026-06-20 22:14:25'),
+(2, 'Consecuencias Globales y Locales', 'El calentamiento ha superado los 1.4ºC por encima de los niveles preindustriales, generando impactos severos:Eventos extremos: Aumento en la frecuencia e intensidad de olas de calor, sequías prolongadas, inundaciones y huracanes más destructivos.Aumento del nivel del mar: Ocasionado por el derretimiento acelerado de glaciares y casquetes polares.Impacto en México: La temperatura media del país ha aumentado cerca de 1.69ºC desde el siglo XX. Esto genera estrés hídrico, reduce la productividad agrícola y amenaza ecosistemas vulnerables.', '', '2026-06-20 22:15:33');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `reciclaje`
 --
 
@@ -152,7 +174,6 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `password`, `rol`, `fecha_registro`, `foto`, `telefono`, `tipo_usuario`, `eco_puntos`) VALUES
-(3, 'christian refugio', 'christian@gmail.com', '71be294746389f836c26e7963ee52178', 'usuario', '2026-05-30 22:23:39', 'default.png', NULL, 'personal', 0),
 (5, 'christian refugio', 'christiamtz@gmail.com', '$2y$10$HkvX2lo.u9RJndLMpqtTJuxEha3qxTq9A2k/y42NBd1F3rLysvsGy', 'usuario', '2026-06-10 01:28:52', '1781407200_6a2e1de0ab31b.jpg', '8123456276', 'personal', 220),
 (6, 'Admin', 'admin@ecosmart.com', '$2y$10$cD8dWbGfXuqgThqqsOLc7.PKxBGFfA5BoTxsYlrF2K/ahfZz64MKK', 'admin', '2026-06-10 01:31:07', '1781055067_6a28be5b00974.jpeg', '3243543423', 'personal', 30),
 (8, 'Hector del Toro', 'hector@gmail.com', '$2y$10$lnnElT3t/.XNa4wDcYy4I.mNUrTjDZOmeSwYP7u5SPhSXynZfHsjy', 'usuario', '2026-06-15 00:08:40', '1781482120_6a2f4288c932d.jpg', '2326778990', 'personal', 3920);
@@ -186,6 +207,12 @@ ALTER TABLE `consumo_gas`
 -- Indices de la tabla `funcionalidades`
 --
 ALTER TABLE `funcionalidades`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `noticias`
+--
+ALTER TABLE `noticias`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -229,6 +256,12 @@ ALTER TABLE `consumo_gas`
 --
 ALTER TABLE `funcionalidades`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `noticias`
+--
+ALTER TABLE `noticias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `reciclaje`

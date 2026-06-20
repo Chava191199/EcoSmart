@@ -42,6 +42,9 @@ href="/ECOSMART/assets/css/footer.css">
 <link rel="stylesheet"
 href="/ECOSMART/assets/css/responsive.css">
 
+<link rel="stylesheet" 
+href="/EcoSmart/assets/css/noticias.css">
+
 </head>
 
 <body>

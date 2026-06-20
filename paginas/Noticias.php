@@ -1,65 +1,49 @@
 <?php
 session_start();
+include __DIR__ . '/../config/conexion.php';
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
+
+$noticias = mysqli_query($conexion, "SELECT * FROM noticias ORDER BY fecha DESC");
 ?>
 
 <section class="page-header">
     <div class="container text-center">
         <h1>📘 Noticias</h1>
-        <p>Conoce más sobre EcoSmart Solutions y nuestra misión</p>
+        <p>Conoce más sobre EcoSmart Solutions</p>
+
+        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+            <a href="agregar_noticia.php" class="btn btn-success">
+                ➕ Agregar Noticia
+            </a>
+        <?php endif; ?>
+
     </div>
 </section>
 
 <div class="container">
-    <section>
-        <div class="section-box">
-            <h2>🌎 ¿Quiénes Somos?</h2>
-            <hr>
-            <p>
-                EcoSmart Solutions es una empresa tecnológica enfocada en el desarrollo de soluciones digitales sostenibles que contribuyen al cumplimiento del Objetivo de Desarrollo Sostenible (ODS) 13: Acción por el Clima.
-            </p>
-            <p>
-                Nuestra plataforma integra una aplicación móvil, una aplicación web progresiva (PWA) y un sistema inteligente que ayuda a personas y empresas a monitorear y reducir su impacto ambiental.
-            </p>
-        </div>
-    </section>
 
-    <section>
-        <div class="section-box">
-            <h2>⚠️ Problemática</h2>
-            <hr>
-            <p>
-                El cambio climático representa uno de los desafíos más importantes de la actualidad. Muchas personas y empresas desconocen el impacto ambiental que generan debido a la falta de herramientas tecnológicas accesibles para monitorear su consumo energético, emisiones de carbono y hábitos ecológicos.
-            </p>
-            <p>
-                Las soluciones existentes suelen ser costosas, limitadas o no están adaptadas al contexto mexicano.
-            </p>
-        </div>
-    </section>
+    <?php while ($n = mysqli_fetch_assoc($noticias)): ?>
 
-    <section>
         <div class="section-box">
-            <h2>✅ Beneficios</h2>
+
+            <h2><?= $n['titulo'] ?></h2>
             <hr>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <h3>⚡ Energía</h3>
-                        <p>Monitoreo inteligente del consumo energético.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <h3>🌍 Medio Ambiente</h3>
-                        <p>Reducción de emisiones contaminantes.</p>
-                    </div>
-                </div>
-            </div>
+
+            <?php if ($n['imagen']): ?>
+                <img src="/EcoSmart/assets/img/noticias/<?= $n['imagen'] ?>"
+                     style="max-width:100%; border-radius:10px;">
+            <?php endif; ?>
+
+            <p><?= $n['contenido'] ?></p>
+
+            <small>📅 <?= $n['fecha'] ?></small>
+
         </div>
-    </section>
+
+    <?php endwhile; ?>
+
 </div>
 
-<?php
-include __DIR__ . '/../includes/footer.php';
+<?php include __DIR__ . '/../includes/footer.php'; ?>
 ?>

@@ -365,9 +365,6 @@ $usuario_id = $_SESSION['id'];
             <button onclick="exportarCSV()" class="btn-export">
                 📥 Exportar CSV
             </button>
-            <button onclick="window.print()" class="btn-export">
-                🖨️ Imprimir / PDF
-            </button>
         </div>
 
         <!-- ================= FECHA DE ACTUALIZACIÓN ================= -->
@@ -377,7 +374,7 @@ $usuario_id = $_SESSION['id'];
 
         <!-- ================= BOTÓN VOLVER ================= -->
         <div class="text-center mt-4">
-            <a href="../dashboard_usuario.php" class="btn-volver">← Volver al Dashboard</a>
+            <a href="../dashboard_usuario.php" class="btn-volver">←Mi Historial</a>
         </div>
     </div>
 </div>
