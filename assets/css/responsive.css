@@ -5,45 +5,129 @@
 @media(max-width:768px){
 
     body{
-        padding-top:180px;
+        padding-top:100px;
     }
+
 
     .floating-navbar{
 
-        flex-direction:column;
+        flex-direction:row;
 
-        gap:15px;
+        justify-content:space-between;
+
+        align-items:center;
+
+        width:90%;
+
+        gap:0;
+
     }
+
+
+    .logo-link{
+
+        font-size:22px;
+
+    }
+
+
+    .logo-img{
+
+        width:45px;
+
+    }
+
+
+    .menu-toggle{
+
+        display:block;
+
+    }
+
 
     .nav-links{
 
-        flex-wrap:wrap;
+        display:none;
+
+        position:absolute;
+
+        top:75px;
+
+        left:0;
+
+        right:0;
+
+        width:100%;
+
+        background:rgba(20,20,20,.95);
+
+        border-radius:20px;
+
+        padding:20px;
+
+        flex-direction:column;
+
+        gap:10px;
+
+    }
+
+
+    .nav-links.active{
+
+        display:flex;
+
+    }
+
+
+    .nav-links a,
+    .user-btn{
+
+        width:100%;
 
         justify-content:center;
+
+        text-align:center;
+
     }
+
 
     .hero h1{
 
         font-size:45px;
+
     }
+
 
     .hero p{
 
         font-size:20px;
+
     }
+
 
     .hero-logo{
 
+<<<<<<< HEAD
     width:280px !important;
 }
+=======
+        width:180px;
+
+    }
+>>>>>>> 81b8e8cebff7dc1277abb15c27a3e62678ed1ce3
+
 
     .login-box{
 
         width:95%;
+
     }
+
 
     .table-admin{
 
         font-size:14px;
+
     }
+
 }

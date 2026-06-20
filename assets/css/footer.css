@@ -1,68 +1,110 @@
-/* =====================================================
-   FOOTER PREMIUM
-===================================================== */
+.footer {
 
-.footer{
-
-    margin-top:100px;
-
-    background:rgba(0,0,0,.85);
-
-    backdrop-filter:blur(15px);
-
-    padding:70px 0 30px;
-
-    border-top:1px solid rgba(255,255,255,.1);
+    margin-top: 100px;
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(15px);
+    padding: 70px 0 30px;
+    border-top: 1px solid rgba(255,255,255,.1);
 }
 
-.footer-logo{
-
-    width:110px;
-
-    margin-bottom:15px;
-
-    transition:.4s;
+.footer-logo {
+    width: 110px;
+    margin-bottom: 15px;
+    transition: .4s;
 }
 
-.footer-logo:hover{
-
-    transform:scale(1.08);
+.footer-logo:hover {
+    transform: scale(1.08);
 }
 
-.footer h4{
-
-    color:#64dd17;
-
-    margin-bottom:20px;
+.footer h4 {
+    color: #64dd17;
+    margin-bottom: 20px;
 }
 
-.footer-links{
-
-    list-style:none;
+.footer-links {
+    list-style: none;
+    padding: 0;
 }
 
-.footer-links a{
-
-    color:white;
-
-    text-decoration:none;
+.footer-links li {
+    margin-bottom: 10px;
 }
 
-.footer-links a:hover{
-
-    color:#64dd17;
-
-    padding-left:8px;
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    transition: .3s;
 }
 
-.footer-line{
-
-    margin:40px 0 20px;
+.footer-links a:hover {
+    color: #64dd17;
+    padding-left: 8px;
 }
 
-.footer-copy{
+/* LINEA Y COPY */
+.footer-line {
+    margin: 40px 0 20px;
+}
 
-    text-align:center;
+.footer-copy {
+    text-align: center;
+    opacity: .8;
+}
 
-    opacity:.8;
+/* ============================= */
+/* DROPDOWN CONSUMOS */
+/* ============================= */
+
+.dropdown-consumos {
+    position: relative;
+}
+
+.dropdown-btn {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.dropdown-btn:hover {
+    color: #64dd17;
+}
+
+/* submenu oculto */
+.submenu-consumos {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #111;
+    min-width: 220px;
+    padding: 10px 0;
+    border-radius: 10px;
+    z-index: 999;
+    box-shadow: 0 10px 25px rgba(0,0,0,.5);
+}
+
+/* items */
+.submenu-consumos li {
+    list-style: none;
+}
+
+.submenu-consumos li a {
+    display: block;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.submenu-consumos li a:hover {
+    background: #333;
+    color: #64dd17;
+}
+
+/* mostrar submenu */
+.dropdown-consumos:hover .submenu-consumos {
+    display: block;
 }

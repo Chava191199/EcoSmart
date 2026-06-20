@@ -6,7 +6,7 @@ include __DIR__ . '/../includes/navbar.php';
 
 <section class="page-header">
     <div class="container text-center">
-        <h1>📘 Información</h1>
+        <h1>📘 Noticias</h1>
         <p>Conoce más sobre EcoSmart Solutions y nuestra misión</p>
     </div>
 </section>
