@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-
 include __DIR__.'/../config/conexion.php';
 
 if(!isset($_SESSION['id'])){
@@ -24,101 +23,84 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
     mysqli_query(
         $conexion,
-        "INSERT INTO consumo_gas(
-            usuario_id,
-            consumo
-        )
-        VALUES(
-            '$usuario_id',
-            '$gas'
-        )"
+        "INSERT INTO consumo_gas(usuario_id, consumo)
+        VALUES('$usuario_id', '$gas')"
     );
 
     $precio = 12.50;
-
     $costo = $gas * $precio;
 
     if($gas < 20){
         $nivel = "🟢 Bajo";
-    }
-    elseif($gas < 40){
+    } elseif($gas < 40){
         $nivel = "🟡 Medio";
-    }
-    else{
+    } else {
         $nivel = "🔴 Alto";
     }
 }
 ?>
 
 <section class="page-header">
-
 <div class="container text-center">
-
-<h1>🔥 Consumo de Gas</h1>
-
-<p>Calcula tu consumo de gas</p>
-
+    <h1>🔥 Consumo de Gas</h1>
+    <p>Calcula tu consumo de gas</p>
 </div>
-
 </section>
 
 <div class="container">
 
 <div class="section-box">
-
 <h2>🔥 Registrar Consumo</h2>
-
 <hr>
 
 <form method="POST">
+    <label>Gas consumido (m³)</label>
+    <input type="number" name="gas" step="0.01" class="form-control" required>
 
-<label>Gas consumido (m³)</label>
-
-<input
-type="number"
-name="gas"
-step="0.01"
-class="form-control"
-required>
-
-<button
-class="btn btn-danger mt-4 w-100">
-
-Calcular
-
-</button>
-
+    <button class="btn btn-danger mt-4 w-100">Calcular</button>
 </form>
-
 </div>
 
 <?php if($_SERVER["REQUEST_METHOD"]=="POST"): ?>
 
 <div class="section-box">
-
 <h2>📊 Resultado</h2>
-
 <hr>
 
-<h3>
+<h3>Consumo: <?= number_format($gas,2) ?> m³</h3>
+<h3>Costo: $<?= number_format($costo,2) ?></h3>
+<h3><?= $nivel ?></h3>
+</div>
 
-Consumo:
-<?= number_format($gas,2) ?> m³
+<div class="section-box">
+<h2>🧠 EcoSmart IA - Análisis de Gas</h2>
+<hr>
 
-</h3>
+<?php
+$recoGas = [];
 
-<h3>
+if($gas > 40){
+    $recoGas[] = "🚨 Consumo alto de gas detectado.";
+    $recoGas[] = "💡 Posible fuga o uso prolongado de calentador.";
+    $recoGas[] = "💡 Revisa válvulas y mantenimiento de estufa.";
+}
+elseif($gas > 20){
+    $recoGas[] = "⚠️ Consumo medio de gas.";
+    $recoGas[] = "💡 Optimiza tiempos de cocción.";
+}
+else{
+    $recoGas[] = "✅ Consumo eficiente de gas.";
+    $recoGas[] = "💡 Buen control energético en cocina.";
+}
 
-Costo:
-$<?= number_format($costo,2) ?>
+if($gas > 30){
+    $recoGas[] = "🧠 IA detecta posible uso intensivo de calentador de agua.";
+}
 
-</h3>
-
-<h3>
-
-<?= $nivel ?>
-
-</h3>
+foreach($recoGas as $r){
+    echo "<p>$r</p>";
+}
+?>
 
 </div>
 
