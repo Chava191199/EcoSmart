@@ -47,8 +47,8 @@ $destacadas = $conexion->query($sql_destacadas);
                             <div class="card-icon-destacada">
                                 <?= $dest['icono'] ?>
                             </div>
-                            <h3><?= $dest['titulo'] ?></h3>
-                            <p><?= $dest['descripcion'] ?></p>
+                            <h3><?= htmlspecialchars($dest['titulo']) ?></h3>
+                            <p><?= htmlspecialchars($dest['descripcion']) ?></p>
                             <span class="badge-destacada">⭐ Destacada</span>
                         </div>
                     </div>
@@ -70,6 +70,7 @@ $destacadas = $conexion->query($sql_destacadas);
                         <option value="agua">💧 Agua</option>
                         <option value="gas">⛽ Gas</option>
                         <option value="reciclaje">♻️ Reciclaje</option>
+                        <option value="categoria">🌍 Categoría</option>
                     </select>
                 </div>
             </div>
@@ -80,62 +81,84 @@ $destacadas = $conexion->query($sql_destacadas);
                 <?php 
                 // Resetear el puntero del resultado
                 $resultado->data_seek(0);
+                
+                // MAPEO DE RUTAS POR TÍTULO
+                $mapaRutasPorTitulo = [
+                    'cambio climático' => 'cambio_climatico.php',
+                    'noticias ambientales' => 'noticias_ambientales.php',
+                    'noticias archivadas' => 'guardar_noticia.php',
+                    'análisis de consumo' => 'comparativas.php',
+                    'recomendaciones' => 'recomendaciones.php',
+                    'consumo energético' => 'consumo.php',
+                    'consumo agua' => 'consumo_agua.php',
+                    'consumo gas' => 'consumo_gas.php',
+                    'registrar reciclaje' => 'registrar_reciclaje.php',
+                ];
+                
                 while($fila = $resultado->fetch_assoc()): 
                     $categoria = isset($fila['categoria']) ? $fila['categoria'] : 'general';
+                    $categoriaLower = strtolower($categoria);
+                    $titulo = strtolower(trim($fila['titulo']));
+                    
+                    // Determinar la ruta
+                    $ruta = "../dashboard_usuario.php";
+                    
+                    switch($categoriaLower) {
+                        case 'energia':
+                            $ruta = "consumo.php";
+                            break;
+                        case 'agua':
+                            $ruta = "consumo_agua.php";
+                            break;
+                        case 'gas':
+                            $ruta = "consumo_gas.php";
+                            break;
+                        case 'reciclaje':
+                            $ruta = "registrar_reciclaje.php";
+                            break;
+                        case 'social':
+                            $ruta = "../top_usuarios.php";
+                            break;
+                        case 'categoria':
+                        case 'general':
+                        default:
+                            // Buscar por título en el mapa
+                            if (isset($mapaRutasPorTitulo[$titulo])) {
+                                $ruta = $mapaRutasPorTitulo[$titulo];
+                            } else {
+                                $ruta = "../dashboard_usuario.php";
+                            }
+                            break;
+                    }
                 ?>
 
-                    <div class="card-custom" data-categoria="<?= $categoria ?>">
+                    <div class="card-custom" data-categoria="<?= htmlspecialchars($categoria) ?>">
                         <div class="card-icon">
                             <?= $fila['icono'] ?>
                         </div>
                         <h3>
-                            <?= $fila['titulo'] ?>
+                            <?= htmlspecialchars($fila['titulo']) ?>
                         </h3>
                         <p>
-                            <?= $fila['descripcion'] ?>
+                            <?= htmlspecialchars($fila['descripcion']) ?>
                         </p>
                         
                         <?php if(isset($fila['beneficio'])): ?>
                             <div class="beneficio">
                                 <i class="fas fa-check-circle"></i>
-                                <?= $fila['beneficio'] ?>
+                                <?= htmlspecialchars($fila['beneficio']) ?>
                             </div>
                         <?php endif; ?>
                         
-                        <?php
-
-                            $ruta = "../dashboard_usuario.php";
-
-                            switch(strtolower($categoria)) {
-
-                                case 'energia':
-                                    $ruta = "consumo.php";
-                                    break;
-
-                                case 'agua':
-                                    $ruta = "consumo_agua.php";
-                                    break;
-
-                                case 'gas':
-                                    $ruta = "consumo_gas.php";
-                                    break;
-
-                                case 'reciclaje':
-                                    $ruta = "registrar_reciclaje.php";
-                                    break;
-
-                                case 'social':
-                                    $ruta = "../top_usuarios.php";
-                                    break;
-                            }
-
-                            ?>
-
-                            <?php if($usuario_id): ?>
-                                <a href="<?= $ruta ?>" class="btn-funcionalidad">
-                                    Probar ahora →
-                                </a>
-                            <?php endif; ?>
+                        <?php if($usuario_id): ?>
+                            <a href="<?= $ruta ?>" class="btn-funcionalidad">
+                                Probar ahora →
+                            </a>
+                        <?php else: ?>
+                            <a href="../login.php" class="btn-funcionalidad btn-iniciar-sesion">
+                                🔑 Iniciar sesión
+                            </a>
+                        <?php endif; ?>
                     </div>
 
                 <?php endwhile; ?>

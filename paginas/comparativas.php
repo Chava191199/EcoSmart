@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 
 // Incluir la conexión a la base de datos
@@ -22,7 +22,7 @@ $usuario_id = $_SESSION['id'];
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- CSS externo -->
-<link rel="stylesheet" href="css/comparativa.css">
+<link rel="stylesheet" href="../css/comparativa.css">
 
 <section class="page-header">
     <div class="container text-center">
@@ -45,45 +45,72 @@ $usuario_id = $_SESSION['id'];
                     <option value="365">Último año</option>
                     <option value="0">Todo el historial</option>
                 </select>
-                
-                <label for="tipoGrafica">📊 Tipo:</label>
-                <select id="tipoGrafica" class="form-select">
-                    <option value="bar">Barras</option>
-                    <option value="line">Línea</option>
-                </select>
             </div>
         </div>
 
-        <!-- ================= GRÁFICO PRINCIPAL ================= -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card-grafica">
-                    <div class="card-body-grafica">
-                        <canvas id="consumoChart"></canvas>
+        <!-- ================= GRÁFICO DE DONA MEJORADO ================= -->
+        <div class="row mt-4">
+            <div class="col-md-8 mx-auto">
+                <div class="grafica-wrapper">
+                    <div class="grafica-header">
+                        <h3>🍩 Distribución de Consumos</h3>
+                        <span class="badge-grafica">📊 Porcentajes</span>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= GRÁFICO DE DONA ================= -->
-        <h3 class="mt-5">🍩 Distribución de Consumos</h3>
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <div class="card-grafica">
-                    <div class="card-body-grafica">
+                    <div class="grafica-container-dona">
                         <canvas id="donaChart"></canvas>
                     </div>
+                    <div class="grafica-footer">
+                        <div class="estadisticas">
+                            <span>
+                                <span class="indicador-color" style="background: #4e73df;"></span>
+                                Energía
+                            </span>
+                            <span>
+                                <span class="indicador-color" style="background: #1cc88a;"></span>
+                                Agua
+                            </span>
+                            <span>
+                                <span class="indicador-color" style="background: #f6c23e;"></span>
+                                Gas
+                            </span>
+                        </div>
+                        <div>
+                            <small>🔄 Actualizado: <?php echo date('d/m/Y'); ?></small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= GRÁFICO DE EVOLUCIÓN ================= -->
-        <h3 class="mt-5">📈 Evolución de Consumos</h3>
-        <div class="row">
+        <!-- ================= GRÁFICO DE EVOLUCIÓN MEJORADO ================= -->
+        <div class="row mt-5">
             <div class="col-md-12">
-                <div class="card-grafica">
-                    <div class="card-body-grafica">
+                <div class="grafica-wrapper">
+                    <div class="grafica-header">
+                        <h3>📈 Evolución de Consumos</h3>
+                        <span class="badge-grafica">📅 Últimos 7 días</span>
+                    </div>
+                    <div class="grafica-container">
                         <canvas id="evolucionChart"></canvas>
+                    </div>
+                    <div class="grafica-footer">
+                        <div class="estadisticas">
+                            <span>
+                                <span class="indicador-color" style="background: #4e73df;"></span>
+                                Energía (kWh)
+                            </span>
+                            <span>
+                                <span class="indicador-color" style="background: #1cc88a;"></span>
+                                Agua (L)
+                            </span>
+                            <span>
+                                <span class="indicador-color" style="background: #f6c23e;"></span>
+                                Gas (m³)
+                            </span>
+                        </div>
+                        <div>
+                            <small>📊 Tendencia de consumo</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -374,7 +401,7 @@ $usuario_id = $_SESSION['id'];
 
         <!-- ================= BOTÓN VOLVER ================= -->
         <div class="text-center mt-4">
-            <a href="../dashboard_usuario.php" class="btn-volver">←Mi Historial</a>
+            <a href="../dashboard_usuario.php" class="btn-volver">← Mi Historial</a>
         </div>
     </div>
 </div>
@@ -399,33 +426,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $query = mysqli_query($conexion, "SELECT SUM(consumo) as total FROM consumo_gas WHERE usuario_id='$usuario_id'");
     if($row = mysqli_fetch_assoc($query)) {
         $total_gas = floatval($row['total']);
-    }
-    
-    // Obtener últimos valores
-    $ultimo_energia = 0;
-    $query = mysqli_query($conexion, "SELECT consumo FROM consumo_energetico WHERE usuario_id='$usuario_id' ORDER BY fecha DESC LIMIT 1");
-    if($row = mysqli_fetch_assoc($query)) {
-        $ultimo_energia = floatval($row['consumo']);
-    }
-    
-    $ultimo_agua = 0;
-    $query = mysqli_query($conexion, "SELECT consumo FROM consumo_agua WHERE usuario_id='$usuario_id' ORDER BY fecha DESC LIMIT 1");
-    if($row = mysqli_fetch_assoc($query)) {
-        $ultimo_agua = floatval($row['consumo']);
-    }
-    
-    $ultimo_gas = 0;
-    $query = mysqli_query($conexion, "SELECT consumo FROM consumo_gas WHERE usuario_id='$usuario_id' ORDER BY fecha DESC LIMIT 1");
-    if($row = mysqli_fetch_assoc($query)) {
-        $ultimo_gas = floatval($row['consumo']);
-    }
-    
-    // Calcular máximo para el eje Y
-    $maximo = max($ultimo_energia, $ultimo_agua, $ultimo_gas, $total_energia, $total_agua, $total_gas);
-    $maximo = $maximo * 1.2;
-    
-    if($maximo == 0) {
-        $maximo = 100;
     }
     
     // Datos para evolución (últimos 7 días)
@@ -464,104 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     ?>
     
-    // ================= GRÁFICO PRINCIPAL =================
-    var ctx = document.getElementById('consumoChart').getContext('2d');
-    var consumoChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['⚡ Energía', '💧 Agua', '⛽ Gas'],
-            datasets: [
-                {
-                    label: 'Último Consumo',
-                    data: [<?php echo $ultimo_energia; ?>, <?php echo $ultimo_agua; ?>, <?php echo $ultimo_gas; ?>],
-                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2,
-                    barPercentage: 0.4,
-                    borderRadius: 8
-                },
-                {
-                    label: 'Total Acumulado',
-                    data: [<?php echo $total_energia; ?>, <?php echo $total_agua; ?>, <?php echo $total_gas; ?>],
-                    backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2,
-                    barPercentage: 0.4,
-                    borderRadius: 8
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                        font: { size: 14, weight: 'bold' },
-                        padding: 20,
-                        usePointStyle: true,
-                        pointStyle: 'rectRounded'
-                    }
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    titleFont: { size: 14, weight: 'bold' },
-                    bodyFont: { size: 13 },
-                    padding: 12,
-                    cornerRadius: 10,
-                    callbacks: {
-                        label: function(context) {
-                            return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' unidades';
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: <?php echo $maximo; ?>,
-                    title: {
-                        display: true,
-                        text: 'Consumo (unidades)',
-                        font: { size: 14, weight: 'bold' }
-                    },
-                    ticks: {
-                        font: { size: 12 },
-                        callback: function(value) {
-                            if (value >= 1000) {
-                                return (value / 1000).toFixed(0) + 'k';
-                            }
-                            return value;
-                        }
-                    },
-                    grid: {
-                        color: 'rgba(0,0,0,0.05)',
-                        drawBorder: true
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Tipo de Consumo',
-                        font: { size: 14, weight: 'bold' }
-                    },
-                    ticks: {
-                        font: { size: 13, weight: 'bold' }
-                    },
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            layout: {
-                padding: { top: 20, bottom: 20, left: 10, right: 10 }
-            }
-        }
-    });
-    
-    // ================= GRÁFICO DE DONA =================
+    // ================= GRÁFICO DE DONA MEJORADO =================
     var ctxDona = document.getElementById('donaChart').getContext('2d');
     new Chart(ctxDona, {
         type: 'doughnut',
@@ -570,30 +473,39 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 data: [<?php echo $total_energia; ?>, <?php echo $total_agua; ?>, <?php echo $total_gas; ?>],
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(255, 206, 86, 0.8)'
+                    'rgb(232, 238, 56)',
+                    'rgba(58, 208, 234, 0.85)',
+                    'rgb(224, 24, 24)'
                 ],
                 borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 206, 86, 1)'
+                    'rgb(232, 238, 56)',
+                    'rgba(58, 208, 234, 0.85)',
+                    'rgb(224, 24, 24)'
                 ],
-                borderWidth: 2
+                borderWidth: 3,
+                hoverOffset: 12
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '70%',
             plugins: {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        font: { size: 13, weight: 'bold' },
-                        padding: 15
+                        font: { size: 14, weight: 'bold' },
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
                     }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.85)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 15,
+                    cornerRadius: 12,
                     callbacks: {
                         label: function(context) {
                             var total = context.dataset.data.reduce(function(a, b) { return a + b; }, 0);
@@ -602,11 +514,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 }
+            },
+            animation: {
+                animateRotate: true,
+                duration: 1500
             }
         }
     });
     
-    // ================= GRÁFICO DE EVOLUCIÓN =================
+    // ================= GRÁFICO DE EVOLUCIÓN MEJORADO =================
     var ctxEvolucion = document.getElementById('evolucionChart').getContext('2d');
     new Chart(ctxEvolucion, {
         type: 'line',
@@ -616,26 +532,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     label: '⚡ Energía',
                     data: <?php echo json_encode($datos_energia); ?>,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderColor: 'rgb(232, 238, 56)',
+                    backgroundColor: 'rgba(78, 115, 223, 0.15)',
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgb(232, 238, 56)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    borderWidth: 3
                 },
                 {
                     label: '💧 Agua',
                     data: <?php echo json_encode($datos_agua); ?>,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    borderColor: 'rgba(58, 208, 234, 0.85)',
+                    backgroundColor: 'rgba(28, 200, 138, 0.15)',
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgba(58, 208, 234, 0.85)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    borderWidth: 3
                 },
                 {
                     label: '⛽ Gas',
                     data: <?php echo json_encode($datos_gas); ?>,
-                    borderColor: 'rgba(255, 206, 86, 1)',
-                    backgroundColor: 'rgba(255, 206, 86, 0.1)',
+                    borderColor: 'rgb(224, 24, 24)',
+                    backgroundColor: 'rgba(246, 194, 62, 0.15)',
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgb(224, 24, 24)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    borderWidth: 3
                 }
             ]
         },
@@ -646,11 +580,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 legend: {
                     position: 'top',
                     labels: {
-                        font: { size: 13, weight: 'bold' },
-                        padding: 15
+                        font: { size: 14, weight: 'bold' },
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
                     }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.85)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 15,
+                    cornerRadius: 12,
                     callbacks: {
                         label: function(context) {
                             return context.dataset.label + ': ' + context.parsed.y.toLocaleString();
@@ -664,36 +605,45 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: {
                         display: true,
                         text: 'Consumo',
-                        font: { size: 13, weight: 'bold' }
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    ticks: {
+                        font: { size: 12 }
                     },
                     grid: {
-                        color: 'rgba(0,0,0,0.05)'
+                        color: 'rgba(0,0,0,0.06)',
+                        drawBorder: true
                     }
                 },
                 x: {
                     title: {
                         display: true,
                         text: 'Fecha',
-                        font: { size: 13, weight: 'bold' }
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    ticks: {
+                        font: { size: 12, weight: 'bold' }
                     },
                     grid: {
                         display: false
                     }
                 }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
             }
         }
     });
     
-    // ================= FILTROS =================
+    // ================= FILTRO DE PERÍODO =================
     document.getElementById('periodo').addEventListener('change', function() {
         alert('Filtro por período: ' + this.value + ' días');
         // Aquí puedes agregar lógica para actualizar los datos
-    });
-    
-    document.getElementById('tipoGrafica').addEventListener('change', function() {
-        var tipo = this.value;
-        consumoChart.config.type = tipo;
-        consumoChart.update();
     });
 });
 

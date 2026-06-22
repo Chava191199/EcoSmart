@@ -1,4 +1,4 @@
-ç<?php
+<?php
 
 session_start();
 include __DIR__.'/../config/conexion.php';
