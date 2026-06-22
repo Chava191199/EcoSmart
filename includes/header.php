@@ -7,6 +7,11 @@
 
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/EcoSmart/assets/img/logo.png">
+<link rel="shortcut icon" href="/EcoSmart/assets/img/logo.png">
+<link rel="apple-touch-icon" href="/EcoSmart/assets/img/logo.png">
+<link rel="manifest" href="/EcoSmart/manifest.json">
+
 
 <title>EcoSmart Solutions</title>
 
