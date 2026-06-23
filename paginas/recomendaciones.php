@@ -96,8 +96,8 @@ if($total_gas > 40) {
 
 <section class="page-header">
     <div class="container text-center">
-        <h1>💡 Recomendaciones Personalizadas</h1>
-        <p>Consejos prácticos para ahorrar agua, energía y gas según tu consumo</p>
+        <h1>🌱 Centro de Consejos EcoSmart</h1>
+        <p>Recomendaciones automáticas para mejorar tus hábitos de consumo</p>
     </div>
 </section>
 

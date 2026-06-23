@@ -79,27 +79,25 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         
         <?php
         $recoGas = [];
-        
-        if($gas > 40){
-            $recoGas[] = "🚨 Consumo alto de gas detectado.";
-            $recoGas[] = "💡 Posible fuga o uso prolongado de calentador.";
-            $recoGas[] = "💡 Revisa válvulas y mantenimiento de estufa.";
+
+        if($gas >= 40){
+            $recoGas[] = "🚨 Consumo elevado de gas.";
+            $recoGas[] = "🔥 Revisa posibles fugas.";
+            $recoGas[] = "🍳 Reduce tiempos de cocción.";
+            $recoGas[] = "🔧 Realiza mantenimiento periódico a estufa y calentador.";
         }
-        elseif($gas > 20){
-            $recoGas[] = "⚠️ Consumo medio de gas.";
-            $recoGas[] = "💡 Optimiza tiempos de cocción.";
+        elseif($gas >= 20){
+            $recoGas[] = "⚠️ Consumo moderado de gas.";
+            $recoGas[] = "🍲 Cocina varias comidas al mismo tiempo.";
+            $recoGas[] = "🥘 Utiliza tapas para conservar el calor.";
         }
         else{
             $recoGas[] = "✅ Consumo eficiente de gas.";
-            $recoGas[] = "💡 Buen control energético en cocina.";
+            $recoGas[] = "🌱 Continúa con tus buenas prácticas.";
         }
-        
-        if($gas > 30){
-            $recoGas[] = "🛁 Posible uso intensivo de calentador de agua.";
-        }
-        
+
         foreach($recoGas as $r){
-            echo "<p>$r</p>";
+            echo "<p class='mb-2'>$r</p>";
         }
         ?>
     </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2026 a las 00:34:59
+-- Tiempo de generación: 23-06-2026 a las 05:39:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -34,6 +34,19 @@ CREATE TABLE `consumo_agua` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `consumo_agua`
+--
+
+INSERT INTO `consumo_agua` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
+(1, 8, 100, '2026-06-20 23:05:06'),
+(2, 8, 300, '2026-06-20 23:05:13'),
+(3, 8, 1000, '2026-06-20 23:05:18'),
+(4, 8, 5000, '2026-06-20 23:05:43'),
+(5, 8, 8000, '2026-06-20 23:05:50'),
+(6, 8, 1200, '2026-06-20 23:05:56'),
+(7, 8, 12000, '2026-06-20 23:06:01');
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +68,13 @@ INSERT INTO `consumo_energetico` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
 (1, 8, 200, '2026-06-15 01:49:43'),
 (2, 8, 5000, '2026-06-17 00:47:12'),
 (3, 6, 5000, '2026-06-17 03:16:49'),
-(4, 6, 6700, '2026-06-20 21:07:28');
+(4, 6, 6700, '2026-06-20 21:07:28'),
+(5, 6, 150, '2026-06-20 22:38:48'),
+(6, 6, 150, '2026-06-20 22:49:18'),
+(7, 8, 150, '2026-06-20 23:02:36'),
+(8, 8, 245, '2026-06-20 23:03:32'),
+(9, 8, 100, '2026-06-20 23:04:07'),
+(10, 8, 50, '2026-06-20 23:04:13');
 
 -- --------------------------------------------------------
 
@@ -75,7 +94,10 @@ CREATE TABLE `consumo_gas` (
 --
 
 INSERT INTO `consumo_gas` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
-(1, 6, 6789, '2026-06-17 03:17:56');
+(1, 6, 6789, '2026-06-17 03:17:56'),
+(2, 8, 20, '2026-06-20 23:06:24'),
+(3, 8, 10, '2026-06-20 23:06:30'),
+(4, 8, 100, '2026-06-20 23:06:33');
 
 -- --------------------------------------------------------
 
@@ -112,16 +134,16 @@ CREATE TABLE `noticias` (
   `titulo` varchar(255) NOT NULL,
   `contenido` text NOT NULL,
   `imagen` varchar(255) DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado` enum('activa','archivada') DEFAULT 'activa'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `noticias`
 --
 
-INSERT INTO `noticias` (`id`, `titulo`, `contenido`, `imagen`, `fecha`) VALUES
-(1, 'Causas Principales del cambio climatico', 'La actividad humana es el motor principal de esta crisis.Combustibles fósiles: El uso de carbón, petróleo y gas representa más del 75% de las emisiones globales de gases de efecto invernadero.Deforestación: La tala y destrucción de bosques elimina sumideros naturales clave que absorben el dióxido de carbono de la atmósfera.', '1781993665_consequences_natural.jpg', '2026-06-20 22:14:25'),
-(2, 'Consecuencias Globales y Locales', 'El calentamiento ha superado los 1.4ºC por encima de los niveles preindustriales, generando impactos severos:Eventos extremos: Aumento en la frecuencia e intensidad de olas de calor, sequías prolongadas, inundaciones y huracanes más destructivos.Aumento del nivel del mar: Ocasionado por el derretimiento acelerado de glaciares y casquetes polares.Impacto en México: La temperatura media del país ha aumentado cerca de 1.69ºC desde el siglo XX. Esto genera estrés hídrico, reduce la productividad agrícola y amenaza ecosistemas vulnerables.', '', '2026-06-20 22:15:33');
+INSERT INTO `noticias` (`id`, `titulo`, `contenido`, `imagen`, `fecha`, `estado`) VALUES
+(6, 'Causas Principales del cambio climatico', 'qqqqqqqqqqqqqqqq', '', '2026-06-23 03:26:05', 'archivada');
 
 -- --------------------------------------------------------
 
@@ -237,19 +259,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `consumo_agua`
 --
 ALTER TABLE `consumo_agua`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `consumo_energetico`
 --
 ALTER TABLE `consumo_energetico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `consumo_gas`
 --
 ALTER TABLE `consumo_gas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `funcionalidades`
@@ -261,7 +283,7 @@ ALTER TABLE `funcionalidades`
 -- AUTO_INCREMENT de la tabla `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `reciclaje`

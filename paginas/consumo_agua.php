@@ -74,32 +74,30 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     
     <!-- ================= RECOMENDACIONES (SIN IA) ================= -->
     <div class="section-box">
-        <h2>💡 Recomendaciones Personalizadas</h2>
+        <h2>💧 Consejos de Ahorro de Agua</h2>
         <hr>
         
         <?php
         $recoAgua = [];
-        
-        if($agua > 12000){
-            $recoAgua[] = "🚨 Detectamos consumo excesivo de agua.";
-            $recoAgua[] = "💡 Posibles fugas en tuberías o sanitarios.";
-            $recoAgua[] = "💡 Reduce tiempo de ducha y evita uso continuo de manguera.";
+
+        if($agua >= 12000){
+            $recoAgua[] = "🚨 Tu consumo de agua es muy alto.";
+            $recoAgua[] = "🔧 Revisa posibles fugas en llaves, sanitarios y tuberías.";
+            $recoAgua[] = "🚿 Reduce el tiempo de ducha.";
+            $recoAgua[] = "🌱 Riega las plantas durante la noche o temprano.";
         }
-        elseif($agua > 5000){
-            $recoAgua[] = "⚠️ Consumo por encima del promedio eficiente.";
-            $recoAgua[] = "💡 Podrías ahorrar instalando regaderas ahorradoras.";
+        elseif($agua >= 5000){
+            $recoAgua[] = "⚠️ Tu consumo es moderado.";
+            $recoAgua[] = "💧 Utiliza dispositivos ahorradores de agua.";
+            $recoAgua[] = "🧺 Usa la lavadora únicamente con carga completa.";
         }
         else{
-            $recoAgua[] = "✅ Consumo eficiente de agua detectado.";
-            $recoAgua[] = "💡 Mantén hábitos actuales de ahorro.";
+            $recoAgua[] = "✅ Excelente consumo de agua.";
+            $recoAgua[] = "🌎 Continúa manteniendo hábitos sostenibles.";
         }
-        
-        if($agua > 8000){
-            $recoAgua[] = "🛁 Posible uso doméstico intensivo (lavadora o limpieza frecuente).";
-        }
-        
+
         foreach($recoAgua as $r){
-            echo "<p>$r</p>";
+            echo "<p class='mb-2'>$r</p>";
         }
         ?>
     </div>

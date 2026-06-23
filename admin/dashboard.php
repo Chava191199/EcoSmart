@@ -332,7 +332,7 @@ include '../includes/navbar.php';
 <section class="page-header">
     <div class="container text-center">
         <h1>🌱 Panel Administrativo</h1>
-        <p>Monitoreo inteligente de recursos y sostenibilidad</p>
+        <p>Monitoreo y análisis de recursos para una vida sostenible</p>
     </div>
 </section>
 

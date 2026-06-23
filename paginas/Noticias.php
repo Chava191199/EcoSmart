@@ -4,7 +4,15 @@ include __DIR__ . '/../config/conexion.php';
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
 
-$noticias = mysqli_query($conexion, "SELECT * FROM noticias ORDER BY fecha DESC");
+/* =========================
+   SOLO NOTICIAS ACTIVAS
+========================= */
+$noticias = mysqli_query(
+    $conexion,
+    "SELECT * FROM noticias WHERE estado='activa' ORDER BY fecha DESC"
+);
+
+$hayNoticias = mysqli_num_rows($noticias);
 ?>
 
 <section class="page-header">
@@ -13,9 +21,23 @@ $noticias = mysqli_query($conexion, "SELECT * FROM noticias ORDER BY fecha DESC"
         <p>Conoce más sobre EcoSmart Solutions</p>
 
         <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
+
+        <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
+
             <a href="agregar_noticia.php" class="btn btn-success">
                 ➕ Agregar Noticia
             </a>
+
+            <a href="administrar_noticias.php" class="btn btn-warning">
+                📦 Archivar Noticias
+            </a>
+
+            <a href="eliminar_noticias.php" class="btn btn-danger">
+                🗑 Eliminar Noticias
+            </a>
+
+        </div>
+
         <?php endif; ?>
 
     </div>
@@ -23,27 +45,43 @@ $noticias = mysqli_query($conexion, "SELECT * FROM noticias ORDER BY fecha DESC"
 
 <div class="container">
 
-    <?php while ($n = mysqli_fetch_assoc($noticias)): ?>
+    <?php if ($hayNoticias > 0): ?>
 
-        <div class="section-box">
+        <?php while ($n = mysqli_fetch_assoc($noticias)): ?>
 
-            <h2><?= $n['titulo'] ?></h2>
-            <hr>
+            <div class="section-box">
 
-            <?php if ($n['imagen']): ?>
-                <img src="/EcoSmart/assets/img/noticias/<?= $n['imagen'] ?>"
-                     style="max-width:100%; border-radius:10px;">
-            <?php endif; ?>
+                <h2><?= htmlspecialchars($n['titulo']) ?></h2>
+                <hr>
 
-            <p><?= $n['contenido'] ?></p>
+                <?php if (!empty($n['imagen'])): ?>
+                    <img src="/EcoSmart/assets/img/noticias/<?= $n['imagen'] ?>"
+                         style="max-width:100%; border-radius:10px;">
+                <?php endif; ?>
 
-            <small>📅 <?= $n['fecha'] ?></small>
+                <p><?= nl2br(htmlspecialchars($n['contenido'])) ?></p>
 
+                <small>📅 <?= $n['fecha'] ?></small>
+
+            </div>
+
+        <?php endwhile; ?>
+
+    <?php else: ?>
+
+        <div class="alert alert-info text-center mt-4">
+            📭 No hay noticias disponibles en este momento.
         </div>
 
-    <?php endwhile; ?>
+        <script>
+            // opcional: recarga suave
+            setTimeout(() => {
+                window.location.href = "Noticias.php";
+            }, 2000);
+        </script>
+
+    <?php endif; ?>
 
 </div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-?>

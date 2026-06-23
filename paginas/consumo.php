@@ -79,29 +79,28 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         
         <?php
         $recoEnergia = [];
-        
-        if($consumo > 200){
+
+        if($consumo >= 200){
             $recoEnergia[] = "🚨 Alto consumo eléctrico detectado.";
-            $recoEnergia[] = "💡 Posible uso excesivo de aire acondicionado o calefacción.";
-            $recoEnergia[] = "💡 Cambia a electrodomésticos eficientes.";
+            $recoEnergia[] = "💡 Sustituye focos tradicionales por LED.";
+            $recoEnergia[] = "❄️ Reduce el uso prolongado del aire acondicionado.";
+            $recoEnergia[] = "🔌 Desconecta aparatos que no utilices.";
         }
-        elseif($consumo > 100){
+        elseif($consumo >= 100){
             $recoEnergia[] = "⚠️ Consumo medio de energía.";
-            $recoEnergia[] = "💡 Reduce uso de aparatos en standby.";
+            $recoEnergia[] = "💡 Evita dejar equipos en modo espera.";
+            $recoEnergia[] = "🖥️ Apaga dispositivos cuando no los uses.";
         }
         else{
-            $recoEnergia[] = "✅ Consumo eficiente de energía.";
-            $recoEnergia[] = "💡 Excelente uso de electricidad.";
+            $recoEnergia[] = "✅ Excelente consumo energético.";
+            $recoEnergia[] = "🌎 Mantén tus hábitos de ahorro.";
         }
-        
-        if($consumo > 150){
-            $recoEnergia[] = "❄️ Posible uso prolongado de climatización o TV.";
-        }
-        
+
         foreach($recoEnergia as $r){
-            echo "<p>$r</p>";
+            echo "<p class='mb-2'>$r</p>";
         }
         ?>
+
     </div>
     
     <?php endif; ?>

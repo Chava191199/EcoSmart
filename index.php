@@ -10,9 +10,10 @@ include 'includes/navbar.php';
     <div class="hero-content">
 
         <img
-        src="/EcoSmart/assets/img/logo.png"
-        class="hero-logo"
-        alt="EcoSmart">
+            src="/EcoSmart/assets/img/logo.png"
+            class="hero-logo"
+            alt="EcoSmart Logo">
+
 
         <p>
             🌱 Tecnología sostenible para el ODS 13: Acción por el Clima
@@ -25,20 +26,20 @@ include 'includes/navbar.php';
             </a>
 
             <p style="margin-top:10px; opacity:0.8;">
-                Accede para monitorear tu consumo y reducir tu impacto ambiental.
+                Accede para monitorear tu consumo y contribuir al cuidado del medio ambiente.
             </p>
 
         <?php else: ?>
 
-            <div class="alert alert-info mt-3">
+            <div class="alert alert-success mt-3">
 
                 <h4>
-                    🧠 EcoSmart activo para:
+                    👋 Bienvenido,
                     <?= htmlspecialchars($_SESSION['usuario']) ?>
                 </h4>
 
                 <p class="mb-0">
-                    Tu sistema ya puede analizar consumo de agua, gas y energía en tiempo real.
+                    Ya puedes registrar y monitorear tu consumo de agua, gas y energía.
                 </p>
 
             </div>
@@ -51,6 +52,8 @@ include 'includes/navbar.php';
 
 <div class="container">
 
+    <!-- ================= ¿QUÉ ES ECOSMART? ================= -->
+
     <div class="section-box text-center">
 
         <h2>🌎 ¿Qué es EcoSmart Solutions?</h2>
@@ -59,16 +62,18 @@ include 'includes/navbar.php';
 
         <p>
             EcoSmart Solutions es una plataforma tecnológica enfocada en
-            <strong>medir, analizar y reducir el consumo de recursos</strong>
-            mediante herramientas digitales inteligentes.
+            <strong>medir, monitorear y reducir el consumo de recursos</strong>
+            mediante herramientas digitales sostenibles.
         </p>
 
         <p>
-            Integramos una web app, una PWA y un sistema de análisis de consumo
-            para ayudarte a tomar decisiones más sostenibles en tu vida diaria.
+            Nuestro objetivo es ayudar a las personas a adoptar hábitos más responsables
+            mediante el seguimiento de sus consumos de agua, energía y gas.
         </p>
 
     </div>
+
+    <!-- ================= FUNCIONALIDADES ================= -->
 
     <div class="section-box">
 
@@ -77,13 +82,60 @@ include 'includes/navbar.php';
         <hr>
 
         <ul>
-            <li>💧 Registrar y analizar consumo de agua</li>
-            <li>🔥 Controlar consumo de gas doméstico</li>
-            <li>⚡ Monitorear consumo eléctrico</li>
-            <li>🧠 Recibir recomendaciones inteligentes tipo IA</li>
+            <li>💧 Registrar consumo de agua</li>
+            <li>🔥 Registrar consumo de gas</li>
+            <li>⚡ Registrar consumo eléctrico</li>
+            <li>📊 Consultar estadísticas de consumo</li>
+            <li>🌱 Obtener consejos de ahorro</li>
+            <li>♻️ Registrar actividades de reciclaje</li>
+            <li>🏆 Participar en el ranking ecológico</li>
         </ul>
 
     </div>
+
+    <!-- ================= BENEFICIOS ================= -->
+
+    <div class="section-box text-center">
+
+        <h2>📊 Beneficios de EcoSmart</h2>
+
+        <hr>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <h4>💧 Agua</h4>
+                    <p>
+                        Controla tu consumo y detecta hábitos que pueden mejorarse.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <h4>⚡ Energía</h4>
+                    <p>
+                        Monitorea tu consumo eléctrico y reduce gastos innecesarios.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="benefit-card">
+                    <h4>🔥 Gas</h4>
+                    <p>
+                        Lleva un control eficiente de tu consumo doméstico.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= IMPACTO ================= -->
 
     <div class="section-box text-center">
 
@@ -92,11 +144,17 @@ include 'includes/navbar.php';
         <hr>
 
         <p>
-            Cada dato que registras ayuda a crear conciencia sobre el uso responsable de recursos.
+            Cada dato que registras ayuda a generar conciencia sobre el uso responsable
+            de los recursos naturales.
         </p>
 
-        <p style="font-size:18px;">
-            🌍 <strong>Pequeñas acciones generan grandes cambios</strong>
+        <p>
+            Al monitorear tus consumos puedes identificar oportunidades de ahorro,
+            reducir costos y contribuir a un futuro más sostenible.
+        </p>
+
+        <p style="font-size:20px;">
+            🌍 <strong>Pequeñas acciones generan grandes cambios.</strong>
         </p>
 
     </div>
