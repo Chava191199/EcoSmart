@@ -13,7 +13,8 @@ if(isset($_GET['id'])){
 
     mysqli_query(
         $conexion,
-        "DELETE FROM noticias
+        "UPDATE noticias
+         SET estado='archivada'
          WHERE id=$id"
     );
 }

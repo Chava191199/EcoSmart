@@ -5,6 +5,7 @@ include __DIR__ . '/../config/conexion.php';
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
 
+<<<<<<< HEAD
 /* =========================
    SOLO NOTICIAS ARCHIVADAS
 ========================= */
@@ -78,11 +79,32 @@ $hayNoticias = mysqli_num_rows($noticias);
     <div class="container">
         <h1>📦 Noticias Archivadas</h1>
         <p>Historial completo de noticias guardadas en EcoSmart Solutions</p>
+=======
+$noticias = mysqli_query(
+    $conexion,
+    "SELECT * FROM noticias
+     WHERE estado='archivada'
+     ORDER BY fecha DESC"
+);
+?>
+
+<section class="page-header">
+    <div class="container text-center">
+
+        <h1>📦 Noticias Archivadas</h1>
+        <p>Historial de noticias EcoSmart</p>
+
+        <a href="Noticias.php" class="btn btn-primary">
+            ⬅ Volver
+        </a>
+
+>>>>>>> a2183c73e91a1f9f9300cf76c5adb45a4c0d1124
     </div>
 </section>
 
 <div class="container">
 
+<<<<<<< HEAD
     <?php if ($hayNoticias > 0): ?>
 
         <?php while ($n = mysqli_fetch_assoc($noticias)): ?>
@@ -118,6 +140,50 @@ $hayNoticias = mysqli_num_rows($noticias);
         </div>
 
     <?php endif; ?>
+=======
+<?php while($n = mysqli_fetch_assoc($noticias)): ?>
+
+    <div class="section-box">
+
+        <h2><?= htmlspecialchars($n['titulo']) ?></h2>
+
+        <hr>
+
+        <?php if(!empty($n['imagen'])): ?>
+            <img src="/EcoSmart/assets/img/noticias/<?= $n['imagen'] ?>"
+                 style="max-width:100%; border-radius:10px;">
+        <?php endif; ?>
+
+        <p><?= nl2br(htmlspecialchars($n['contenido'])) ?></p>
+
+        <small>
+            📅 <?= $n['fecha'] ?>
+            | 📦 Archivada
+        </small>
+
+        <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] == 'admin'): ?>
+
+            <div class="acciones-admin">
+
+                <a href="restaurar_noticia.php?id=<?= $n['id'] ?>"
+                   class="btn-restaurar">
+                    ♻ Restaurar
+                </a>
+
+                <a href="eliminar_noticias.php?id=<?= $n['id'] ?>"
+                   class="btn-eliminar"
+                   onclick="return confirm('¿Eliminar noticia definitivamente?')">
+                    🗑 Eliminar
+                </a>
+
+            </div>
+
+        <?php endif; ?>
+
+    </div>
+
+<?php endwhile; ?>
+>>>>>>> a2183c73e91a1f9f9300cf76c5adb45a4c0d1124
 
 </div>
 

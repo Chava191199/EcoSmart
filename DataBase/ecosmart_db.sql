@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-06-2026 a las 05:39:09
+-- Tiempo de generación: 24-06-2026 a las 04:00:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -74,7 +74,8 @@ INSERT INTO `consumo_energetico` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
 (7, 8, 150, '2026-06-20 23:02:36'),
 (8, 8, 245, '2026-06-20 23:03:32'),
 (9, 8, 100, '2026-06-20 23:04:07'),
-(10, 8, 50, '2026-06-20 23:04:13');
+(10, 8, 50, '2026-06-20 23:04:13'),
+(11, 8, 2345, '2026-06-24 01:57:36');
 
 -- --------------------------------------------------------
 
@@ -102,30 +103,6 @@ INSERT INTO `consumo_gas` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `funcionalidades`
---
-
-CREATE TABLE `funcionalidades` (
-  `id` int(11) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `descripcion` text NOT NULL,
-  `icono` varchar(100) NOT NULL,
-  `categoria` varchar(50) DEFAULT 'general',
-  `beneficio` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `funcionalidades`
---
-
-INSERT INTO `funcionalidades` (`id`, `titulo`, `descripcion`, `icono`, `categoria`, `beneficio`) VALUES
-(1, 'Calculadora de Energía', 'Calcula tu consumo energético mensual', '<i class=\"fas fa-bolt\"></i>', 'energia', 'Ahorro de energía'),
-(2, 'Consumo de Agua', 'Monitorea tu gasto de agua', '<i class=\"fas fa-tint\"></i>', 'agua', 'Reducción del consumo'),
-(3, 'Registro de Reciclaje', 'Registra materiales reciclados', '<i class=\"fas fa-recycle\"></i>', 'reciclaje', 'Obtén EcoPuntos');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `noticias`
 --
 
@@ -143,7 +120,9 @@ CREATE TABLE `noticias` (
 --
 
 INSERT INTO `noticias` (`id`, `titulo`, `contenido`, `imagen`, `fecha`, `estado`) VALUES
-(6, 'Causas Principales del cambio climatico', 'qqqqqqqqqqqqqqqq', '', '2026-06-23 03:26:05', 'archivada');
+(6, 'Causas Principales del cambio climatico', 'qqqqqqqqqqqqqqqq', '', '2026-06-23 03:26:05', 'archivada'),
+(7, 'Consecuencias Globales y Locales', 'El cambio climático es la alteración global y prolongada de las temperaturas y patrones meteorológicos de la Tierra. Es impulsado principalmente por la actividad humana —como la quema de combustibles fósiles (carbón, petróleo y gas)—, lo cual incrementa los gases de efecto invernadero y retiene un exceso de calor en la atmósfera', '1782264312_cambio-climatico-riesgo-economia.webp', '2026-06-24 01:25:12', 'archivada'),
+(9, 'Causas Principales del cambio climatico', 'yo', '', '2026-06-24 01:46:22', 'activa');
 
 -- --------------------------------------------------------
 
@@ -226,12 +205,6 @@ ALTER TABLE `consumo_gas`
   ADD KEY `usuario_id` (`usuario_id`);
 
 --
--- Indices de la tabla `funcionalidades`
---
-ALTER TABLE `funcionalidades`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `noticias`
 --
 ALTER TABLE `noticias`
@@ -265,7 +238,7 @@ ALTER TABLE `consumo_agua`
 -- AUTO_INCREMENT de la tabla `consumo_energetico`
 --
 ALTER TABLE `consumo_energetico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `consumo_gas`
@@ -274,16 +247,10 @@ ALTER TABLE `consumo_gas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `funcionalidades`
---
-ALTER TABLE `funcionalidades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT de la tabla `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `reciclaje`
