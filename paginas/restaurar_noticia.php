@@ -13,10 +13,11 @@ if(isset($_GET['id'])){
 
     mysqli_query(
         $conexion,
-        "DELETE FROM noticias
+        "UPDATE noticias
+         SET estado='activa'
          WHERE id=$id"
     );
 }
 
-header("Location: Noticias.php");
+header("Location: noticias_archivadas.php");
 exit();

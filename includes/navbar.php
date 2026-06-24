@@ -32,10 +32,6 @@ if(session_status() == PHP_SESSION_NONE){
 
         <?php if(isset($_SESSION['usuario'])): ?>
 
-             <a href="/EcoSmart/paginas/funcionalidades.php">
-            ⚙️ Funcionalidades
-             </a>
-
             <!-- MENÚ CONSUMOS -->
             <div class="user-dropdown">
                 <button type="button" class="user-btn" id="consumoBtn">
