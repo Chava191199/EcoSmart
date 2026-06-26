@@ -62,13 +62,13 @@ $hayNoticias = mysqli_num_rows($noticias);
 
                 <div class="acciones-admin">
 
-                    <a href="archivar_noticia.php?id=<?= $n['id'] ?>"
+                    <a href="/EcoSmart/noticias/archivar_noticia.php?id=<?= $n['id'] ?>"
                        class="btn-archivar"
                        onclick="return confirm('¿Archivar noticia?')">
                         📦 Archivar
                     </a>
 
-                    <a href="eliminar_noticias.php?id=<?= $n['id'] ?>"
+                    <a href="/EcoSmart/noticias/eliminar_noticias.php?id=<?= $n['id'] ?>"
                        class="btn-eliminar"
                        onclick="return confirm('¿Eliminar noticia?')">
                         🗑 Eliminar

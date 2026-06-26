@@ -25,7 +25,7 @@ if(session_status() == PHP_SESSION_NONE){
             🏠 Inicio
         </a>
 
-        <a href="/EcoSmart/paginas/Noticias.php">
+        <a href="/EcoSmart/noticias/Noticias.php">
             📘 Noticias
         </a>
 

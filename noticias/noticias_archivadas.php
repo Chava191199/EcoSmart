@@ -52,12 +52,12 @@ $noticias = mysqli_query(
 
             <div class="acciones-admin">
 
-                <a href="restaurar_noticia.php?id=<?= $n['id'] ?>"
+                <a href="/EcoSmart/noticias/restaurar_noticia.php?id=<?= $n['id'] ?>"
                    class="btn-restaurar">
                     ♻ Restaurar
                 </a>
 
-                <a href="eliminar_noticias.php?id=<?= $n['id'] ?>"
+                <a href="/EcoSmart/noticias/eliminar_noticias.php?id=<?= $n['id'] ?>"
                    class="btn-eliminar"
                    onclick="return confirm('¿Eliminar noticia definitivamente?')">
                     🗑 Eliminar

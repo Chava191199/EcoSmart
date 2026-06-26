@@ -69,6 +69,92 @@ while ($row = mysqli_fetch_assoc($qEnergia)) {
     $energiaMeses[$row['mes'] - 1] = round($row['total'], 2);
 }
 
+/* ==========================
+   NUEVOS USUARIOS POR MES (INTERACCIÓN)
+========================== */
+
+// Preparar array para los últimos 12 meses
+$usuariosMeses = array_fill(0, 12, 0);
+$usuariosAcumulados = array_fill(0, 12, 0);
+
+// Consulta para obtener nuevos usuarios por mes
+$qUsuarios = mysqli_query($conexion, "
+SELECT 
+    MONTH(fecha_registro) as mes,
+    YEAR(fecha_registro) as año,
+    COUNT(*) as nuevos
+FROM usuarios
+WHERE fecha_registro IS NOT NULL
+GROUP BY YEAR(fecha_registro), MONTH(fecha_registro)
+ORDER BY año DESC, mes DESC
+LIMIT 12
+");
+
+// Guardar datos de nuevos usuarios por mes
+$nuevosUsuarios = [];
+while ($row = mysqli_fetch_assoc($qUsuarios)) {
+    $nuevosUsuarios[] = $row;
+}
+
+// Rellenar array con los últimos 12 meses
+$mesesLabels = [];
+$datosNuevos = array_fill(0, 12, 0);
+
+// Obtener los últimos 12 meses desde el mes actual
+$mesActual = date('n');
+$añoActual = date('Y');
+
+for ($i = 11; $i >= 0; $i--) {
+    $mes = $mesActual - $i;
+    $año = $añoActual;
+    if ($mes <= 0) {
+        $mes += 12;
+        $año--;
+    }
+    $mesesLabels[] = date('M Y', mktime(0, 0, 0, $mes, 1, $año));
+    
+    // Buscar si hay datos para este mes
+    foreach ($nuevosUsuarios as $row) {
+        if ($row['mes'] == $mes && $row['año'] == $año) {
+            $datosNuevos[11 - $i] = (int)$row['nuevos'];
+            break;
+        }
+    }
+}
+
+// Calcular usuarios acumulados
+$acumulado = 0;
+for ($i = 0; $i < 12; $i++) {
+    $acumulado += $datosNuevos[$i];
+    $usuariosAcumulados[$i] = $acumulado;
+}
+
+// Obtener estadísticas adicionales
+// Último mes
+$ultimoMes = mysqli_fetch_assoc(mysqli_query($conexion, "
+SELECT COUNT(*) as nuevos 
+FROM usuarios 
+WHERE fecha_registro >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+"));
+
+// Últimos 3 meses
+$ultimos3Meses = mysqli_fetch_assoc(mysqli_query($conexion, "
+SELECT COUNT(*) as nuevos 
+FROM usuarios 
+WHERE fecha_registro >= DATE_SUB(NOW(), INTERVAL 90 DAY)
+"));
+
+// Último año
+$ultimoAño = mysqli_fetch_assoc(mysqli_query($conexion, "
+SELECT COUNT(*) as nuevos 
+FROM usuarios 
+WHERE fecha_registro >= DATE_SUB(NOW(), INTERVAL 365 DAY)
+"));
+
+$nuevosUltimoMes = $ultimoMes['nuevos'] ?? 0;
+$nuevosUltimos3Meses = $ultimos3Meses['nuevos'] ?? 0;
+$nuevosUltimoAño = $ultimoAño['nuevos'] ?? 0;
+
 include '../includes/header.php';
 include '../includes/navbar.php';
 ?>
@@ -137,6 +223,43 @@ include '../includes/navbar.php';
     font-weight: 700;
     color: #198754;
     text-shadow: 2px 2px 8px rgba(25,135,84,0.15);
+}
+
+/* ========== TARJETA DE INTERACCIÓN (USUARIOS) ========== */
+.dashboard-card-interaction {
+    background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+    color: #2d3436;
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    transition: all 0.3s ease;
+    height: 100%;
+    border-left: 6px solid #e74c3c;
+}
+
+.dashboard-card-interaction:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+}
+
+.dashboard-card-interaction h4 {
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2d3436;
+}
+
+.dashboard-card-interaction small {
+    color: #6c757d;
+    display: block;
+    margin-top: 5px;
+}
+
+.dashboard-number-interaction {
+    font-size: 50px;
+    font-weight: 700;
+    color: #e74c3c;
+    text-shadow: 2px 2px 8px rgba(231,76,60,0.15);
 }
 
 /* ========== GRÁFICOS MEJORADOS ========== */
@@ -250,6 +373,44 @@ include '../includes/navbar.php';
     height: 100% !important;
 }
 
+/* ========== NUEVO: GRÁFICO DE INTERACCIÓN ========== */
+.chart-wrapper-interaction {
+    background: linear-gradient(135deg, #fff5f5, #ffffff);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    margin-bottom: 30px;
+    height: 100%;
+    transition: all 0.3s ease;
+    min-height: 400px;
+    border: 2px solid #f8d7da;
+}
+
+.chart-wrapper-interaction:hover {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
+}
+
+.chart-wrapper-interaction h5 {
+    text-align: center;
+    color: #2d3436;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f8d7da;
+}
+
+.chart-container-interaction {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+.chart-container-interaction canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 992px) {
     .chart-container {
@@ -261,6 +422,10 @@ include '../includes/navbar.php';
     }
     
     .chart-container-pie {
+        height: 250px;
+    }
+    
+    .chart-container-interaction {
         height: 250px;
     }
 }
@@ -278,17 +443,20 @@ include '../includes/navbar.php';
         font-size: 1rem;
     }
     
-    .dashboard-number {
+    .dashboard-number,
+    .dashboard-number-interaction {
         font-size: 35px;
     }
     
-    .dashboard-card {
+    .dashboard-card,
+    .dashboard-card-interaction {
         padding: 20px 15px;
     }
     
     .chart-wrapper,
     .chart-wrapper-line,
-    .chart-wrapper-pie {
+    .chart-wrapper-pie,
+    .chart-wrapper-interaction {
         padding: 15px;
         min-height: 280px;
     }
@@ -304,6 +472,10 @@ include '../includes/navbar.php';
     .chart-container-pie {
         height: 220px;
     }
+    
+    .chart-container-interaction {
+        height: 200px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -311,7 +483,8 @@ include '../includes/navbar.php';
         font-size: 1.6rem;
     }
     
-    .dashboard-number {
+    .dashboard-number,
+    .dashboard-number-interaction {
         font-size: 28px;
     }
     
@@ -325,6 +498,10 @@ include '../includes/navbar.php';
     
     .chart-container-pie {
         height: 200px;
+    }
+    
+    .chart-container-interaction {
+        height: 180px;
     }
 }
 </style>
@@ -373,6 +550,43 @@ include '../includes/navbar.php';
             </div>
         </div>
 
+    </div>
+
+    <!-- ========== TARJETAS DE INTERACCIÓN (NUEVOS USUARIOS) ========== -->
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="dashboard-card-interaction">
+                <h4>🚀 Último Mes</h4>
+                <div class="dashboard-number-interaction"><?= $nuevosUltimoMes ?></div>
+                <small>Nuevos usuarios en los últimos 30 días</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card-interaction">
+                <h4>📈 Últimos 3 Meses</h4>
+                <div class="dashboard-number-interaction"><?= $nuevosUltimos3Meses ?></div>
+                <small>Nuevos usuarios en los últimos 90 días</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card-interaction">
+                <h4>📊 Último Año</h4>
+                <div class="dashboard-number-interaction"><?= $nuevosUltimoAño ?></div>
+                <small>Nuevos usuarios en el último año</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== GRÁFICO DE INTERACCIÓN (NUEVOS USUARIOS) ========== -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="chart-wrapper-interaction">
+                <h5>👥 Nuevos Usuarios por Mes (Interacción)</h5>
+                <div class="chart-container-interaction">
+                    <canvas id="interactionChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ========== GRÁFICOS SUPERIORES ========== -->
@@ -437,10 +651,104 @@ include '../includes/navbar.php';
 
 <script>
 const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+const mesesLabels = <?= json_encode($mesesLabels) ?>;
+const datosNuevos = <?= json_encode($datosNuevos) ?>;
+const usuariosAcumulados = <?= json_encode($usuariosAcumulados) ?>;
 
 // Configuración de fuentes para mejor legibilidad
 Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
 Chart.defaults.font.size = 12;
+
+/* ========== GRÁFICO DE INTERACCIÓN (NUEVOS USUARIOS) ========== */
+new Chart(document.getElementById('interactionChart'), {
+    type: 'bar',
+    data: {
+        labels: mesesLabels,
+        datasets: [
+            {
+                label: 'Nuevos Usuarios',
+                data: datosNuevos,
+                backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                borderColor: 'rgba(231, 76, 60, 1)',
+                borderWidth: 2,
+                borderRadius: 6,
+                order: 2
+            },
+            {
+                label: 'Usuarios Acumulados',
+                data: usuariosAcumulados,
+                type: 'line',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 3,
+                order: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    font: { size: 12, weight: 'bold' },
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 20
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                titleFont: { size: 14, weight: 'bold' },
+                bodyFont: { size: 13 },
+                padding: 12,
+                cornerRadius: 10,
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        let value = context.parsed.y;
+                        return label + ': ' + value + ' usuario' + (value !== 1 ? 's' : '');
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad de Usuarios',
+                    font: { size: 12, weight: 'bold' }
+                },
+                ticks: {
+                    font: { size: 11 },
+                    stepSize: 1
+                },
+                grid: {
+                    color: 'rgba(0,0,0,0.05)'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    font: { size: 10 },
+                    maxRotation: 45,
+                    minRotation: 30
+                }
+            }
+        }
+    }
+});
 
 /* ========== PIE CHART ========== */
 new Chart(document.getElementById('pieChart'), {
