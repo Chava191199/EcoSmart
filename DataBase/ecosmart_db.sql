@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-06-2026 a las 04:00:06
+-- Tiempo de generación: 28-06-2026 a las 00:01:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -75,7 +75,13 @@ INSERT INTO `consumo_energetico` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
 (8, 8, 245, '2026-06-20 23:03:32'),
 (9, 8, 100, '2026-06-20 23:04:07'),
 (10, 8, 50, '2026-06-20 23:04:13'),
-(11, 8, 2345, '2026-06-24 01:57:36');
+(11, 8, 2345, '2026-06-24 01:57:36'),
+(12, 8, 245, '2026-06-27 17:17:24'),
+(13, 6, 25, '2026-06-27 21:33:30'),
+(14, 6, 25, '2026-06-27 21:46:24'),
+(15, 6, 26, '2026-06-27 21:46:33'),
+(16, 6, 26, '2026-06-27 21:59:21'),
+(17, 8, 25, '2026-06-27 22:00:12');
 
 -- --------------------------------------------------------
 
@@ -98,7 +104,8 @@ INSERT INTO `consumo_gas` (`id`, `usuario_id`, `consumo`, `fecha`) VALUES
 (1, 6, 6789, '2026-06-17 03:17:56'),
 (2, 8, 20, '2026-06-20 23:06:24'),
 (3, 8, 10, '2026-06-20 23:06:30'),
-(4, 8, 100, '2026-06-20 23:06:33');
+(4, 8, 100, '2026-06-20 23:06:33'),
+(5, 8, 245, '2026-06-27 17:17:40');
 
 -- --------------------------------------------------------
 
@@ -150,6 +157,30 @@ INSERT INTO `reciclaje` (`id`, `usuario_id`, `material`, `cantidad`, `fecha`, `p
 (4, 8, 'Papel', 13, '2026-06-15 00:09:24', 130),
 (5, 8, 'Metal', 245, '2026-06-15 00:09:33', 2450),
 (6, 6, 'Plástico', 3, '2026-06-17 03:18:39', 30);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `recomendaciones`
+--
+
+CREATE TABLE `recomendaciones` (
+  `id` int(11) NOT NULL,
+  `tipo` enum('energia','agua','gas') DEFAULT NULL,
+  `consumo_min` float DEFAULT NULL,
+  `consumo_max` float DEFAULT NULL,
+  `titulo` varchar(100) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `activa` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `recomendaciones`
+--
+
+INSERT INTO `recomendaciones` (`id`, `tipo`, `consumo_min`, `consumo_max`, `titulo`, `descripcion`, `activa`) VALUES
+(1, 'energia', 25, 49.98, 'Buen trabajo', 'Exelente trabajo sigue asi', 1),
+(2, 'energia', 25, 49.98, 'Buen trabajo', 'Exelente trabajo sigue asi', 1);
 
 -- --------------------------------------------------------
 
@@ -218,6 +249,12 @@ ALTER TABLE `reciclaje`
   ADD KEY `usuario_id` (`usuario_id`);
 
 --
+-- Indices de la tabla `recomendaciones`
+--
+ALTER TABLE `recomendaciones`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -238,13 +275,13 @@ ALTER TABLE `consumo_agua`
 -- AUTO_INCREMENT de la tabla `consumo_energetico`
 --
 ALTER TABLE `consumo_energetico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `consumo_gas`
 --
 ALTER TABLE `consumo_gas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
@@ -257,6 +294,12 @@ ALTER TABLE `noticias`
 --
 ALTER TABLE `reciclaje`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `recomendaciones`
+--
+ALTER TABLE `recomendaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

@@ -2,36 +2,32 @@
 session_start();
 
 include __DIR__.'/../config/conexion.php';
+include __DIR__.'/../includes/functions.php';
 
-
-if(!isset($_SESSION['id'])){
-
+/* =========================
+   VALIDAR LOGIN
+========================= */
+if (!isset($_SESSION['id'])) {
     header("Location: ../auth/login.php");
     exit();
-
 }
-
 
 $usuario_id = $_SESSION['id'];
 
-
-include __DIR__.'/../includes/header.php';
-include __DIR__.'/../includes/navbar.php';
-
-
-
+/* =========================
+   VARIABLES
+========================= */
 $gas = 0;
 $costo = 0;
 $nivel = "";
+$recomendaciones = [];
 
-
-
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-
+/* =========================
+   PROCESO POST
+========================= */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $gas = floatval($_POST["gas"]);
-
-
 
     mysqli_query(
         $conexion,
@@ -39,521 +35,152 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         VALUES('$usuario_id','$gas')"
     );
 
-
-
     $precio = 12.50;
-
-
     $costo = $gas * $precio;
 
-
-
-    if($gas < 20){
-
+    /* NIVEL */
+    if ($gas < 20) {
         $nivel = "🟢 Bajo";
-
-
-    }elseif($gas < 40){
-
-
+    } elseif ($gas < 40) {
         $nivel = "🟡 Medio";
-
-
-    }else{
-
-
+    } else {
         $nivel = "🔴 Alto";
-
-
     }
 
+    /* =========================
+       RECOMENDACIONES BD
+    ========================= */
+    $recomendaciones = obtenerRecomendaciones($conexion, "gas", $gas);
 }
 
+include __DIR__.'/../includes/header.php';
+include __DIR__.'/../includes/navbar.php';
 ?>
 
-
-
+<!-- ================= HEADER ================= -->
 <section class="page-header">
-
-<div class="container text-center">
-
-
-<h1>🔥 Consumo de Gas</h1>
-
-
-<p>Calcula tu consumo de gas</p>
-
-
-</div>
-
+    <div class="container text-center">
+        <h1>🔥 Consumo de Gas</h1>
+        <p>Calcula tu consumo de gas</p>
+    </div>
 </section>
-
-
-
-
-
 
 <div class="container">
 
-
-
-
-
 <!-- ================= FORMULARIO ================= -->
-
-
 <div class="section-box">
 
+    <h2>🔥 Registrar Consumo</h2>
+    <hr>
 
-<h2>🔥 Registrar Consumo</h2>
+    <form method="POST">
 
+        <label>Gas consumido (m³)</label>
 
-<hr>
+        <input type="number"
+               name="gas"
+               step="0.01"
+               class="form-control"
+               required>
 
+        <button class="btn btn-danger mt-4 w-100">
+            Calcular
+        </button>
 
-
-<form method="POST">
-
-
-<label>
-
-Gas consumido (m³)
-
-</label>
-
-
-
-<input
-
-type="number"
-
-name="gas"
-
-step="0.01"
-
-class="form-control"
-
-required>
-
-
-
-
-<button class="btn btn-danger mt-4 w-100">
-
-
-Calcular
-
-
-</button>
-
-
-
-</form>
-
-
+    </form>
 
 </div>
 
-
-
-
-
-
-
-<?php if($_SERVER["REQUEST_METHOD"]=="POST"): ?>
-
-
-
-
-
+<?php if ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
 
 <!-- ================= RESULTADOS ================= -->
-
-
 <div class="section-box">
 
+    <h2>📊 Resultado</h2>
+    <hr>
 
-<h2>📊 Resultado</h2>
-
-
-<hr>
-
-
-
-<h3>
-
-Consumo:
-
-<?= number_format($gas,2) ?> m³
-
-</h3>
-
-
-
-
-<h3>
-
-Costo:
-
-$<?= number_format($costo,2) ?>
-
-</h3>
-
-
-
-
-<h3>
-
-<?= $nivel ?>
-
-</h3>
-
-
+    <h3>Consumo: <?= number_format($gas,2) ?> m³</h3>
+    <h3>Costo: $<?= number_format($costo,2) ?></h3>
+    <h3><?= $nivel ?></h3>
 
 </div>
 
-
-
-
-
-
-
-<!-- ================= RECOMENDACIONES ================= -->
-
-
-
-<?php
-
-
-
-$recoGas = [];
-
-
-
-if($gas >= 40){
-
-
-
-    $tituloGas = "🔴 Consumo alto de gas";
-
-
-
-    $recoGas[] = "🚨 Consumo elevado de gas.";
-
-    $recoGas[] = "🔥 Revisa posibles fugas en instalaciones.";
-
-    $recoGas[] = "🍳 Reduce tiempos de cocción.";
-
-    $recoGas[] = "🔧 Realiza mantenimiento a estufa y calentador.";
-
-
-
-
-
-}elseif($gas >= 20){
-
-
-
-    $tituloGas = "🟡 Consumo moderado";
-
-
-
-    $recoGas[] = "⚠️ Consumo moderado de gas.";
-
-    $recoGas[] = "🍲 Cocina varias comidas al mismo tiempo.";
-
-    $recoGas[] = "🥘 Utiliza tapas para conservar el calor.";
-
-    $recoGas[] = "🔥 Apaga quemadores cuando no los utilices.";
-
-
-
-
-
-}else{
-
-
-
-    $tituloGas = "🟢 Consumo eficiente";
-
-
-
-    $recoGas[] = "✅ Consumo eficiente de gas.";
-
-    $recoGas[] = "🌱 Continúa con tus buenas prácticas.";
-
-    $recoGas[] = "💚 Mantén el uso responsable del gas.";
-
-}
-
-
-
-?>
-
-
-
-
-
-
-
-
+<!-- ================= BOTÓN ================= -->
 <div class="section-box text-center">
 
+    <h2>💡 Recomendaciones Personalizadas</h2>
+    <hr>
 
-<h2>
+    <button type="button"
+            class="btn btn-primary btn-lg"
+            onclick="abrirGas()">
 
-💡 Recomendaciones Personalizadas
-
-</h2>
-
-
-<hr>
-
-
-
-
-<button
-
-type="button"
-
-class="btn btn-primary btn-lg"
-
-onclick="abrirGas()">
-
-
-🔥 Ver recomendaciones
-
-
-</button>
-
-
+        🔥 Ver recomendaciones
+    </button>
 
 </div>
 
-
-
-
-
-
-
-
-
-<!-- ================= VENTANA RECOMENDACIONES ================= -->
-
-
-
+<!-- ================= MODAL ================= -->
 <div id="ventanaGas"
+     style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:9999;">
 
-style="
+    <div style="background:white;color:#333;width:90%;max-width:500px;margin:8% auto;padding:30px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.3);">
 
-display:none;
+        <h2 style="text-align:center;color:#222;">
+            🔥 Recomendaciones
+        </h2>
 
-position:fixed;
+        <hr>
 
-top:0;
+        <?php if (count($recomendaciones) > 0): ?>
 
-left:0;
+            <?php foreach($recomendaciones as $r): ?>
 
-width:100%;
+                <div style="background:#f1f1f1;padding:15px;margin:12px 0;border-radius:10px;">
 
-height:100%;
+                    <strong><?= htmlspecialchars($r['titulo']) ?></strong><br>
+                    <?= htmlspecialchars($r['descripcion']) ?>
 
-background:rgba(0,0,0,.6);
+                </div>
 
-z-index:9999;
+            <?php endforeach; ?>
 
-">
+        <?php else: ?>
 
+            <p style="text-align:center;">
+                No hay recomendaciones para este consumo.
+            </p>
 
+        <?php endif; ?>
 
+        <div class="text-center mt-4">
+            <button class="btn btn-secondary" onclick="cerrarGas()">
+                Cerrar
+            </button>
+        </div>
 
-
-
-<div style="
-
-background:white;
-
-color:#333;
-
-width:90%;
-
-max-width:500px;
-
-margin:8% auto;
-
-padding:30px;
-
-border-radius:15px;
-
-box-shadow:0 5px 20px rgba(0,0,0,.3);
-
-">
-
-
-
-
-
-
-<h2 style="
-
-text-align:center;
-
-color:#222;
-
-">
-
-
-<?= $tituloGas ?>
-
-
-</h2>
-
-
-
-
-<hr>
-
-
-
-
-
-
-<?php foreach($recoGas as $r): ?>
-
-
-
-<div style="
-
-background:#f1f1f1;
-
-color:#333;
-
-padding:15px;
-
-margin:12px 0;
-
-border-radius:10px;
-
-font-size:16px;
-
-">
-
-
-<?= $r ?>
-
-
+    </div>
 </div>
-
-
-
-<?php endforeach; ?>
-
-
-
-
-
-
-
-
-<div class="text-center mt-4">
-
-
-
-<button
-
-class="btn btn-secondary"
-
-onclick="cerrarGas()">
-
-
-
-Cerrar
-
-
-
-</button>
-
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
 
 <script>
-
-
 function abrirGas(){
-
-
     document.getElementById("ventanaGas").style.display="block";
-
-
 }
-
-
-
 
 function cerrarGas(){
-
-
     document.getElementById("ventanaGas").style.display="none";
-
-
 }
 
-
-
-
-window.onclick=function(event){
-
-
-    let ventana=document.getElementById("ventanaGas");
-
-
-    if(event.target==ventana){
-
-
-        ventana.style.display="none";
-
-
+window.onclick = function(event){
+    let ventana = document.getElementById("ventanaGas");
+    if(event.target == ventana){
+        ventana.style.display = "none";
     }
-
-
 }
-
-
-
 </script>
-
-
-
-
-
-
 
 <?php endif; ?>
 
-
-
 </div>
-
-
-
-
-
 
 <?php include __DIR__.'/../includes/footer.php'; ?>
