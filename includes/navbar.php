@@ -8,170 +8,107 @@ if(session_status() == PHP_SESSION_NONE){
 
     <!-- LOGO -->
     <div class="logo">
-
         <a href="/EcoSmart/index.php" class="logo-link">
-
-            <img
-            src="/EcoSmart/assets/img/logo.png"
-            alt="EcoSmart"
-            class="logo-img">
-
+            <img src="/EcoSmart/assets/img/logo.png" alt="EcoSmart" class="logo-img">
             <span>EcoSmart</span>
-
         </a>
-
     </div>
 
     <button id="menuToggle" class="menu-toggle">
-    ☰
-</button>
+        ☰
+    </button>
 
     <!-- MENÚ -->
     <div class="nav-links">
-        
 
         <a href="/EcoSmart/index.php">
             🏠 Inicio
         </a>
 
-        <a href="/EcoSmart/paginas/informacion.php">
-            📘 Información
+        <a href="/EcoSmart/noticias/Noticias.php">
+            📘 Noticias
         </a>
 
-        <a href="/EcoSmart/paginas/proyectos.php">
-            🚀 Proyectos
-        </a>
 
         <?php if(isset($_SESSION['usuario'])): ?>
 
             <!-- MENÚ CONSUMOS -->
-
             <div class="user-dropdown">
-
-                <button
-                type="button"
-                class="user-btn"
-                id="consumoBtn">
-
+                <button type="button" class="user-btn" id="consumoBtn">
                     ⚡ Consumos
-
                     <span class="arrow">▼</span>
-
                 </button>
 
-                <div
-                id="consumoMenu"
-                class="user-menu">
-
+                <div id="consumoMenu" class="user-menu">
                     <a href="/EcoSmart/paginas/consumo.php">
                         ⚡ Energía Eléctrica
                     </a>
-
                     <a href="/EcoSmart/paginas/consumo_agua.php">
                         💧 Consumo de Agua
                     </a>
-
                     <a href="/EcoSmart/paginas/consumo_gas.php">
                         ⛽ Consumo de Gas
                     </a>
-
+                    <a href="/EcoSmart/paginas/comparativas.php">
+                        📊 Comparativas
+                    </a>
                 </div>
-
             </div>
 
             <?php
-
             $foto = "default.avif";
-
-            if(
-                isset($_SESSION['foto']) &&
-                !empty($_SESSION['foto'])
-            ){
+            if(isset($_SESSION['foto']) && !empty($_SESSION['foto'])){
                 $foto = $_SESSION['foto'];
             }
-
             ?>
 
             <!-- MENÚ USUARIO -->
-
             <div class="user-dropdown">
-
-                <button
-                type="button"
-                class="user-btn"
-                id="userBtn">
-
-                    <img
-                    src="/EcoSmart/uploads/perfiles/<?php echo $foto; ?>"
-                    alt="Perfil"
-                    class="navbar-profile"
-                    onerror="this.src='/EcoSmart/uploads/perfiles/default.avif';">
-
-                    <span>
-                        <?= htmlspecialchars($_SESSION['usuario']) ?>
-                    </span>
-
-                    <span class="arrow">
-                        ▼
-                    </span>
-
+                <button type="button" class="user-btn" id="userBtn">
+                    <img src="/EcoSmart/uploads/perfiles/<?php echo $foto; ?>" 
+                         alt="Perfil" 
+                         class="navbar-profile" 
+                         onerror="this.src='/EcoSmart/uploads/perfiles/default.avif';">
+                    <span><?= htmlspecialchars($_SESSION['usuario']) ?></span>
+                    <span class="arrow">▼</span>
                 </button>
 
-                <div
-                id="userMenu"
-                class="user-menu">
-
+                <div id="userMenu" class="user-menu">
                     <a href="/EcoSmart/perfil.php">
                         👤 Mi Perfil
                     </a>
-
                     <a href="/EcoSmart/dashboard_usuario.php">
                         📜 Mi Historial
                     </a>
-
                     <a href="/EcoSmart/paginas/registrar_reciclaje.php">
                         ♻️ Registrar Reciclaje
                     </a>
-
                     <a href="/EcoSmart/top_usuarios.php">
                         🏆 Ranking Ecológico
                     </a>
 
                     <hr>
 
-                    <?php if(
-                        isset($_SESSION['rol']) &&
-                        $_SESSION['rol'] === 'admin'
-                    ): ?>
-
+                    <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
                         <a href="/EcoSmart/admin/dashboard.php">
                             👑 Panel Admin
                         </a>
-
                         <a href="/EcoSmart/admin/usuarios.php">
                             👥 Usuarios
                         </a>
-
                         <hr>
-
                     <?php endif; ?>
 
                     <a href="/EcoSmart/auth/logout.php">
                         🚪 Cerrar Sesión
                     </a>
-
                 </div>
-
             </div>
 
         <?php else: ?>
 
-            <a
-            href="/EcoSmart/auth/registro.php"
-            class="register-btn">
-
+            <a href="/EcoSmart/auth/registro.php" class="register-btn">
                 ✨ Registrarse
-
             </a>
 
         <?php endif; ?>
@@ -181,102 +118,87 @@ if(session_status() == PHP_SESSION_NONE){
 </nav>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+    const userBtn = document.getElementById("userBtn");
+    const userMenu = document.getElementById("userMenu");
+    const consumoBtn = document.getElementById("consumoBtn");
+    const consumoMenu = document.getElementById("consumoMenu");
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.querySelector(".nav-links");
 
-        const userBtn =
-        document.getElementById("userBtn");
-
-        const userMenu =
-        document.getElementById("userMenu");
-
-        const consumoBtn =
-        document.getElementById("consumoBtn");
-
-        const consumoMenu =
-        document.getElementById("consumoMenu");
-
-        /* MENÚ USUARIO */
-
-        if(userBtn && userMenu){
-
-            userBtn.addEventListener(
-                "click",
-                function(e){
-
-                    e.preventDefault();
-
-                    e.stopPropagation();
-
-                    userMenu.classList.toggle("show");
-
-                    if(consumoMenu){
-
-                        consumoMenu.classList.remove("show");
-
-                    }
-
-                }
-            );
-
-        }
-
-        const menuToggle = document.getElementById("menuToggle");
-const navLinks = document.querySelector(".nav-links");
-
-menuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-});
-
-        /* MENÚ CONSUMOS */
-
-        if(consumoBtn && consumoMenu){
-
-            consumoBtn.addEventListener(
-                "click",
-                function(e){
-
-                    e.preventDefault();
-
-                    e.stopPropagation();
-
-                    consumoMenu.classList.toggle("show");
-
-                    if(userMenu){
-
-                        userMenu.classList.remove("show");
-
-                    }
-
-                }
-            );
-
-        }
-
-        /* CERRAR MENÚS */
-
-        document.addEventListener(
-            "click",
-            function(){
-
-                if(userMenu){
-
-                    userMenu.classList.remove("show");
-
-                }
-
-                if(consumoMenu){
-
-                    consumoMenu.classList.remove("show");
-
-                }
-
+    // MENÚ USUARIO
+    if(userBtn && userMenu) {
+        userBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            userMenu.classList.toggle("show");
+            if(consumoMenu) {
+                consumoMenu.classList.remove("show");
             }
-        );
-
+        });
     }
-);
 
+    // MENÚ CONSUMOS
+    if(consumoBtn && consumoMenu) {
+        consumoBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            consumoMenu.classList.toggle("show");
+            if(userMenu) {
+                userMenu.classList.remove("show");
+            }
+        });
+    }
+
+    // MENÚ HAMBURGUESA PARA MÓVIL
+    if(menuToggle && navLinks) {
+        menuToggle.addEventListener("click", function(e) {
+            e.stopPropagation();
+            navLinks.classList.toggle("active");
+        });
+    }
+
+    // CERRAR MENÚS AL HACER CLICK FUERA
+    document.addEventListener("click", function(e) {
+        // Cerrar menú usuario
+        if(userMenu && !userMenu.classList.contains('show')) {
+            // No hacer nada si ya está cerrado
+        }
+        if(userMenu && userMenu.classList.contains('show')) {
+            // Verificar si el click fue dentro del botón o menú
+            if(!userBtn.contains(e.target) && !userMenu.contains(e.target)) {
+                userMenu.classList.remove("show");
+            }
+        }
+
+        // Cerrar menú consumos
+        if(consumoMenu && consumoMenu.classList.contains('show')) {
+            if(!consumoBtn.contains(e.target) && !consumoMenu.contains(e.target)) {
+                consumoMenu.classList.remove("show");
+            }
+        }
+
+        // Cerrar menú hamburguesa
+        if(navLinks && navLinks.classList.contains('active')) {
+            if(!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        }
+    });
+
+    // Cerrar menús al hacer scroll
+    window.addEventListener("scroll", function() {
+        if(userMenu && userMenu.classList.contains('show')) {
+            userMenu.classList.remove('show');
+        }
+        if(consumoMenu && consumoMenu.classList.contains('show')) {
+            consumoMenu.classList.remove('show');
+        }
+        if(navLinks && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+});
 </script>
