@@ -48,6 +48,9 @@ href="/EcoSmart/assets/css/noticias.css">
 <link rel="stylesheet" 
 href="/EcoSmart/assets/css/noticias_admin.css">
 
+<link rel="stylesheet" 
+href="/EcoSmart/assets/css/dashboard.css">
+
 </head>
 
 <body>
