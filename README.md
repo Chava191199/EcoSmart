@@ -12,4 +12,4 @@ Proyecto desarrollado para promover la ODS 13: Acción por el Clima mediante una
 ✔ Secciones informativas sobre la problemática ambiental, beneficios, campañas y proyectos.
 ✔ Estructura modular mediante header, navbar y footer reutilizables.
 
-Este proyecto integra conocimientos de Desarrollo Web, Aplicaciones Web Progresivas, Gestión del Desarrollo de Software y Negociación Empresarial, con el objetivo de fomentar hábitos sostenibles mediante herramientas tecnológicas modernas.
+Este proyecto integra conocimientos de Desarrollo Web, Aplicaciones Web Progresivas, con el objetivo de fomentar hábitos sostenibles mediante herramientas tecnológicas modernas.
