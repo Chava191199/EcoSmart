@@ -19,37 +19,37 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 rel="stylesheet">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/main.css">
+href="/assets/css/main.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/navbar.css">
+href="/assets/css/navbar.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/hero.css">
+href="/assets/css/hero.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/cards.css">
+href="/assets/css/cards.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/forms.css">
+href="/assets/css/forms.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/admin.css">
+href="/assets/css/admin.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/footer.css">
+href="/assets/css/footer.css">
 
 <link rel="stylesheet"
-href="/ECOSMART/assets/css/responsive.css">
+href="/assets/css/responsive.css">
 
 <link rel="stylesheet" 
-href="/EcoSmart/assets/css/noticias.css">
+href="/assets/css/noticias.css">
 
 <link rel="stylesheet" 
-href="/EcoSmart/assets/css/noticias_admin.css">
+href="/assets/css/noticias_admin.css">
 
 <link rel="stylesheet" 
-href="/EcoSmart/assets/css/dashboard.css">
+href="/assets/css/dashboard.css">
 
 </head>
 

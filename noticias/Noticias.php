@@ -1,6 +1,7 @@
 <?php
 session_start();
 include __DIR__ . '/../config/conexion.php';
+include __DIR__ . '/../config/markdown.php';
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
 
@@ -50,11 +51,13 @@ $hayNoticias = mysqli_num_rows($noticias);
             <hr>
 
             <?php if(!empty($n['imagen'])): ?>
-                <img src="/EcoSmart/assets/img/noticias/<?= $n['imagen'] ?>"
+                <img src="/assets/img/noticias/<?= $n['imagen'] ?>"
                      style="max-width:100%; border-radius:10px;">
             <?php endif; ?>
 
-            <p><?= nl2br(htmlspecialchars($n['contenido'])) ?></p>
+            <div class="noticia-contenido">
+                <?= parseMarkdown($n['contenido']) ?>
+            </div>
 
             <small>📅 <?= $n['fecha'] ?></small>
 

@@ -8,7 +8,7 @@
             <div class="col-md-4">
 
                 <img
-                    src="/EcoSmart/assets/img/logo.png"
+                    src="/assets/img/logo.png"
                     alt="EcoSmart"
                     class="footer-logo">
 
@@ -29,11 +29,11 @@
                 <ul class="footer-links">
 
                     <li>
-                        <a href="/EcoSmart/index.php">🏠 Inicio</a>
+                        <a href="/index.php">🏠 Inicio</a>
                     </li>
 
                     <li>
-                        <a href="/EcoSmart/noticias/Noticias.php">📘 Noticias</a>
+                        <a href="/noticias/Noticias.php">📘 Noticias</a>
                     </li>
 
                     <?php if (isset($_SESSION['usuario'])): ?>
@@ -46,19 +46,19 @@
 
                             <ul class="submenu-consumos">
                                 <li>
-                                    <a href="/EcoSmart/paginas/consumo.php">
+                                    <a href="/paginas/consumo.php">
                                         ⚡ Consumo Energético
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="/EcoSmart/paginas/consumo_agua.php">
+                                    <a href="/paginas/consumo_agua.php">
                                         💧 Consumo de Agua
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="/EcoSmart/paginas/consumo_gas.php">
+                                    <a href="/paginas/consumo_gas.php">
                                         🔥 Consumo de Gas
                                     </a>
                                 </li>

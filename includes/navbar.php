@@ -8,8 +8,8 @@ if(session_status() == PHP_SESSION_NONE){
 
     <!-- LOGO -->
     <div class="logo">
-        <a href="/EcoSmart/index.php" class="logo-link">
-            <img src="/EcoSmart/assets/img/logo.png" alt="EcoSmart" class="logo-img">
+        <a href="/index.php" class="logo-link">
+            <img src="/assets/img/logo.png" alt="EcoSmart" class="logo-img">
             <span>EcoSmart</span>
         </a>
     </div>
@@ -21,11 +21,11 @@ if(session_status() == PHP_SESSION_NONE){
     <!-- MENÚ -->
     <div class="nav-links">
 
-        <a href="/EcoSmart/index.php">
+        <a href="/index.php">
             🏠 Inicio
         </a>
 
-        <a href="/EcoSmart/noticias/Noticias.php">
+        <a href="/noticias/Noticias.php">
             📘 Noticias
         </a>
 
@@ -40,16 +40,16 @@ if(session_status() == PHP_SESSION_NONE){
                 </button>
 
                 <div id="consumoMenu" class="user-menu">
-                    <a href="/EcoSmart/paginas/consumo.php">
+                    <a href="/paginas/consumo.php">
                         ⚡ Energía Eléctrica
                     </a>
-                    <a href="/EcoSmart/paginas/consumo_agua.php">
+                    <a href="/paginas/consumo_agua.php">
                         💧 Consumo de Agua
                     </a>
-                    <a href="/EcoSmart/paginas/consumo_gas.php">
+                    <a href="/paginas/consumo_gas.php">
                         ⛽ Consumo de Gas
                     </a>
-                    <a href="/EcoSmart/paginas/comparativas.php">
+                    <a href="/paginas/comparativas.php">
                         📊 Comparativas
                     </a>
                 </div>
@@ -65,41 +65,41 @@ if(session_status() == PHP_SESSION_NONE){
             <!-- MENÚ USUARIO -->
             <div class="user-dropdown">
                 <button type="button" class="user-btn" id="userBtn">
-                    <img src="/EcoSmart/uploads/perfiles/<?php echo $foto; ?>" 
+                    <img src="/uploads/perfiles/<?php echo $foto; ?>" 
                          alt="Perfil" 
                          class="navbar-profile" 
-                         onerror="this.src='/EcoSmart/uploads/perfiles/default.avif';">
+                         onerror="this.src='/uploads/perfiles/default.avif';">
                     <span><?= htmlspecialchars($_SESSION['usuario']) ?></span>
                     <span class="arrow">▼</span>
                 </button>
 
                 <div id="userMenu" class="user-menu">
-                    <a href="/EcoSmart/perfil.php">
+                    <a href="/perfil.php">
                         👤 Mi Perfil
                     </a>
-                    <a href="/EcoSmart/dashboard_usuario.php">
+                    <a href="/dashboard_usuario.php">
                         📜 Mi Historial
                     </a>
-                    <a href="/EcoSmart/paginas/registrar_reciclaje.php">
+                    <a href="/paginas/registrar_reciclaje.php">
                         ♻️ Registrar Reciclaje
                     </a>
-                    <a href="/EcoSmart/top_usuarios.php">
+                    <a href="/top_usuarios.php">
                         🏆 Ranking Ecológico
                     </a>
 
                     <hr>
 
                     <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
-                        <a href="/EcoSmart/admin/dashboard.php">
+                        <a href="/admin/dashboard.php">
                             👑 Panel Admin
                         </a>
-                        <a href="/EcoSmart/admin/usuarios.php">
+                        <a href="/admin/usuarios.php">
                             👥 Usuarios
                         </a>
                         <hr>
                     <?php endif; ?>
 
-                    <a href="/EcoSmart/auth/logout.php">
+                    <a href="/auth/logout.php">
                         🚪 Cerrar Sesión
                     </a>
                 </div>
@@ -107,7 +107,7 @@ if(session_status() == PHP_SESSION_NONE){
 
         <?php else: ?>
 
-            <a href="/EcoSmart/auth/registro.php" class="register-btn">
+            <a href="/auth/registro.php" class="register-btn">
                 ✨ Registrarse
             </a>
 

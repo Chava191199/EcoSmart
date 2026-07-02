@@ -4,194 +4,87 @@ include '../config/conexion.php';
 
 $mensaje = "";
 
-if(isset($_POST['registro'])){
+if (isset($_POST['registro'])) {
 
-    $nombre = trim(
-        mysqli_real_escape_string(
-            $conexion,
-            $_POST['nombre']
-        )
-    );
+    $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+    $correo = isset($_POST['correo']) ? trim($_POST['correo']) : '';
+    $telefono = isset($_POST['telefono']) ? trim($_POST['telefono']) : '';
+    $tipo_usuario = isset($_POST['tipo_usuario']) ? trim($_POST['tipo_usuario']) : 'personal';
+    $password_raw = isset($_POST['password']) ? $_POST['password'] : '';
 
-    $correo = trim(
-        mysqli_real_escape_string(
-            $conexion,
-            $_POST['correo']
-        )
-    );
+    $foto = 'default.avif';
 
-    $telefono = trim(
-        mysqli_real_escape_string(
-            $conexion,
-            $_POST['telefono']
-        )
-    );
+    // Validaciones básicas
+    if (!preg_match('/^[0-9]{10,15}$/', $telefono)) {
+        $mensaje = 'El teléfono debe contener entre 10 y 15 dígitos.';
+    } elseif (empty($correo) || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        $mensaje = 'Introduce un correo válido.';
+    } elseif (empty($password_raw)) {
+        $mensaje = 'La contraseña no puede estar vacía.';
+    } else {
 
-    $tipo_usuario = mysqli_real_escape_string(
-        $conexion,
-        $_POST['tipo_usuario']
-    );
+        // Verificar correo duplicado con sentencia preparada
+        $stmt = $conexion->prepare('SELECT id FROM usuarios WHERE correo = ? LIMIT 1');
+        if ($stmt) {
+            $stmt->bind_param('s', $correo);
+            $stmt->execute();
+            $stmt->store_result();
 
-    $password = password_hash(
-        $_POST['password'],
-        PASSWORD_DEFAULT
-    );
-
-    /* FOTO POR DEFECTO */
-
-    $foto = "default.png";
-
-    /* VALIDAR TELÉFONO */
-
-    if(!preg_match('/^[0-9]{10,15}$/', $telefono)){
-
-        $mensaje =
-        "El teléfono debe contener entre 10 y 15 dígitos.";
-
-    }else{
-
-        /* VALIDAR CORREO DUPLICADO */
-
-        $verificar = mysqli_query(
-            $conexion,
-            "SELECT id
-             FROM usuarios
-             WHERE correo='$correo'"
-        );
-
-        if(mysqli_num_rows($verificar) > 0){
-
-            $mensaje =
-            "El correo ya está registrado.";
-
-        }else{
-
-            /* SUBIR FOTO */
-
-            if(
-                isset($_FILES['foto']) &&
-                $_FILES['foto']['error'] == 0
-            ){
-
-                $permitidos = [
-                    'jpg',
-                    'jpeg',
-                    'png',
-                    'webp',
-                    'avif'
-                ];
-
-                $extension = strtolower(
-                    pathinfo(
-                        $_FILES['foto']['name'],
-                        PATHINFO_EXTENSION
-                    )
-                );
-
-                if(
-                    !in_array(
-                        $extension,
-                        $permitidos
-                    )
-                ){
-
-                    $mensaje =
-                    "Formato de imagen no permitido.";
-
-                }elseif(
-                    $_FILES['foto']['size']
-                    > 5 * 1024 * 1024
-                ){
-
-                    $mensaje =
-                    "La imagen supera los 5MB.";
-
-                }else{
-
-                    if(
-                        !is_dir(
-                            "../uploads/perfiles"
-                        )
-                    ){
-
-                        mkdir(
-                            "../uploads/perfiles",
-                            0777,
-                            true
-                        );
-                    }
-
-                    $foto =
-                    time()
-                    . "_"
-                    . uniqid()
-                    . "."
-                    . $extension;
-
-                    move_uploaded_file(
-
-                        $_FILES['foto']['tmp_name'],
-
-                        "../uploads/perfiles/"
-                        . $foto
-
-                    );
-                }
+            if ($stmt->num_rows > 0) {
+                $mensaje = 'El correo ya está registrado.';
             }
+            $stmt->close();
+        } else {
+            error_log('Prepare failed: ' . $conexion->error);
+            $mensaje = 'Error del servidor. Intenta más tarde.';
+        }
+    }
 
-            /* INSERTAR USUARIO */
+    // Si no hay mensajes de error, procesar foto y guardar usuario
+    if ($mensaje == '') {
 
-            if($mensaje == ""){
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+            $permitidos = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
+            $extension = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
 
-                $sql = "
-
-                INSERT INTO usuarios(
-
-                    nombre,
-                    correo,
-                    telefono,
-                    tipo_usuario,
-                    foto,
-                    password,
-                    rol
-
-                )
-
-                VALUES(
-
-                    '$nombre',
-                    '$correo',
-                    '$telefono',
-                    '$tipo_usuario',
-                    '$foto',
-                    '$password',
-                    'usuario'
-
-                )
-
-                ";
-
-                if(
-                    mysqli_query(
-                        $conexion,
-                        $sql
-                    )
-                ){
-
-                    header(
-                        'Location: login.php?registro=ok'
-                    );
-
-                    exit();
-
-                }else{
-
-                    $mensaje =
-                    "Error al registrar usuario.";
+            if (!in_array($extension, $permitidos)) {
+                $mensaje = 'Formato de imagen no permitido.';
+            } elseif ($_FILES['foto']['size'] > 5 * 1024 * 1024) {
+                $mensaje = 'La imagen supera los 5MB.';
+            } else {
+                if (!is_dir(__DIR__ . '/../uploads/perfiles')) {
+                    mkdir(__DIR__ . '/../uploads/perfiles', 0755, true);
                 }
+
+                $foto = time() . '_' . uniqid() . '.' . $extension;
+                $dest = __DIR__ . '/../uploads/perfiles/' . $foto;
+                move_uploaded_file($_FILES['foto']['tmp_name'], $dest);
+            }
+        }
+
+        if ($mensaje == '') {
+
+            $password = password_hash($password_raw, PASSWORD_DEFAULT);
+
+            $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, correo, telefono, tipo_usuario, foto, password, rol) VALUES (?, ?, ?, ?, ?, ?, 'usuario')");
+
+            if ($stmt) {
+                $stmt->bind_param('ssssss', $nombre, $correo, $telefono, $tipo_usuario, $foto, $password);
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    header('Location: login.php?registro=ok');
+                    exit();
+                } else {
+                    error_log('Execute failed: ' . $stmt->error);
+                    $mensaje = 'Error al registrar usuario.';
+                }
+            } else {
+                error_log('Prepare failed: ' . $conexion->error);
+                $mensaje = 'Error del servidor. Intenta más tarde.';
             }
         }
     }
+
 }
 
 ?>
@@ -204,7 +97,7 @@ if(isset($_POST['registro'])){
     <div class="login-box">
 
         <img
-        src="/EcoSmart/assets/img/logo.png"
+        src="/assets/img/logo.png"
         class="login-logo">
 
         <h2 class="text-center mb-4">

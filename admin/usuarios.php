@@ -126,7 +126,7 @@ include '../includes/navbar.php';
                         <td>
 
                             <img
-                            src="/EcoSmart/uploads/perfiles/<?= $u['foto'] ?>"
+                            src="/uploads/perfiles/<?= $u['foto'] ?>"
                             alt="Perfil"
                             width="60"
                             height="60"

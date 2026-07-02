@@ -2,6 +2,7 @@
 session_start();
 
 include __DIR__ . '/../config/conexion.php';
+include __DIR__ . '/../config/markdown.php';
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
 
@@ -37,11 +38,13 @@ $noticias = mysqli_query(
         <hr>
 
         <?php if(!empty($n['imagen'])): ?>
-            <img src="/EcoSmart/assets/img/noticias/<?= $n['imagen'] ?>"
+            <img src="/assets/img/noticias/<?= $n['imagen'] ?>"
                  style="max-width:100%; border-radius:10px;">
         <?php endif; ?>
 
-        <p><?= nl2br(htmlspecialchars($n['contenido'])) ?></p>
+        <div class="noticia-contenido">
+            <?= parseMarkdown($n['contenido']) ?>
+        </div>
 
         <small>
             📅 <?= $n['fecha'] ?>
@@ -52,12 +55,12 @@ $noticias = mysqli_query(
 
             <div class="acciones-admin">
 
-                <a href="/EcoSmart/noticias/restaurar_noticia.php?id=<?= $n['id'] ?>"
+                <a href="/noticias/restaurar_noticia.php?id=<?= $n['id'] ?>"
                    class="btn-restaurar">
                     ♻ Restaurar
                 </a>
 
-                <a href="/EcoSmart/noticias/eliminar_noticias.php?id=<?= $n['id'] ?>"
+                <a href="/noticias/eliminar_noticias.php?id=<?= $n['id'] ?>"
                    class="btn-eliminar"
                    onclick="return confirm('¿Eliminar noticia definitivamente?')">
                     🗑 Eliminar

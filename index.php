@@ -10,7 +10,7 @@ include 'includes/navbar.php';
     <div class="hero-content">
 
         <img
-            src="/EcoSmart/assets/img/logo.png"
+            src="/assets/img/logo.png"
             class="hero-logo"
             alt="EcoSmart Logo">
 
@@ -21,7 +21,7 @@ include 'includes/navbar.php';
 
         <?php if(!isset($_SESSION['usuario'])): ?>
 
-            <a href="/EcoSmart/auth/login.php" class="hero-btn">
+            <a href="/auth/login.php" class="hero-btn">
                 🔐 Iniciar Sesión
             </a>
 
@@ -162,3 +162,4 @@ include 'includes/navbar.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
+

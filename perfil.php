@@ -101,7 +101,7 @@ include 'includes/navbar.php';
                 ?>
 
                 <img
-                src="/EcoSmart/uploads/perfiles/<?php echo $foto; ?>"
+                src="/uploads/perfiles/<?php echo $foto; ?>"
                 class="rounded-circle shadow"
                 width="220"
                 height="220"

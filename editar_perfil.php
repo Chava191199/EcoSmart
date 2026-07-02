@@ -229,3 +229,4 @@ if(isset($_POST['actualizar'])){
 </div>
 
 <?php include 'includes/footer.php'; ?>
+

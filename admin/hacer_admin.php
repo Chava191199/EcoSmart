@@ -4,16 +4,21 @@ session_start();
 
 include '../config/conexion.php';
 
-if($_SESSION['rol'] != 'admin'){
-    exit();
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+    exit('No autorizado');
 }
 
-$id = intval($_GET['id']);
+$id = intval($_GET['id'] ?? 0);
 
-mysqli_query(
-    $conexion,
-    "UPDATE usuarios SET rol='admin' WHERE id='$id'"
-);
+if ($id > 0) {
+    $stmt = $conexion->prepare('UPDATE usuarios SET rol = ? WHERE id = ?');
+    if ($stmt) {
+        $rol = 'admin';
+        $stmt->bind_param('si', $rol, $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
 
-header("Location: usuarios.php");
+header('Location: usuarios.php');
 exit();

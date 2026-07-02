@@ -31,11 +31,26 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
             </div>
 
             <div class="mb-3">
-                <label>Contenido</label>
+                <label>Contenido (Soporta Markdown)</label>
                 <textarea name="contenido"
                           class="form-control"
                           rows="6"
+                          placeholder="# Título&#10;## Subtítulo&#10;**texto en negrita**&#10;*texto en itálica*&#10;- item de lista&#10;[enlace](https://ejemplo.com)"
                           required></textarea>
+                
+                <small class="form-text text-muted d-block mt-2">
+                    <strong>Comandos Markdown:</strong><br>
+                    • <code># Título</code> - Encabezado H1<br>
+                    • <code>## Subtítulo</code> - Encabezado H2<br>
+                    • <code>### Subsubtítulo</code> - Encabezado H3<br>
+                    • <code>**texto**</code> - Negrita<br>
+                    • <code>*texto*</code> - Itálica<br>
+                    • <code>- item</code> - Lista de puntos<br>
+                    • <code>[texto](url)</code> - Enlace<br>
+                    • <code>\`código\`</code> - Código inline<br>
+                    • <code>```código```</code> - Bloque de código<br>
+                    • <code>> cita</code> - Cita/Blockquote
+                </small>
             </div>
 
             <div class="mb-4">
