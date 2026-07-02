@@ -7,10 +7,10 @@ error_reporting(E_ALL);
 
 // Usar variables de entorno si están definidas (útil en hosting)
 // Si no las defines, reemplaza los valores por los de tu cuenta InfinityFree.
-$host = getenv('DB_HOST') ?: 'sql103.infinityfree.com';
-$user = getenv('DB_USER') ?: 'if0_41447408';
-$password = getenv('DB_PASSWORD') ?: '[PON_AQUI_LA_CONTRASEÑA]';
-$database = getenv('DB_NAME') ?: 'if0_41447408_ecosmart_db';
+$host = getenv('DB_HOST') ?: 'localhost';
+$user = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASSWORD') ?: '';
+$database = getenv('DB_NAME') ?: 'ecosmart_db';
 
 $conexion = new mysqli($host, $user, $password, $database);
 
